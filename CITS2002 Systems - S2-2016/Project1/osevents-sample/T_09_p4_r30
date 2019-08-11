@@ -1,0 +1,41 @@
+diskrpm            5400
+disksectors     60
+timequantum     10000
+51400   0       admit
+5300    0       read    56
+8400    0       read    32
+11600   0       read    0
+12800   0       read    40
+67000   1       admit
+16000   0       read    10
+13200   1       read    24
+80900   2       admit
+5400    2       read    8
+6000    2       read    53
+25600   1       read    39
+42100   0       read    33
+97200   3       admit
+2300    3       read    49
+49600   0       read    41
+20600   2       read    52
+15800   3       read    10
+18300   3       read    59
+68100   0       read    53
+29500   3       read    57
+33000   3       read    40
+33800   3       read    52
+84000   0       read    7
+69000   1       read    8
+70800   1       read    58
+43300   3       read    45
+91900   0       read    0
+96500   0       read    56
+91700   1       read    35
+98500   1       read    37
+101400  1       read    47
+102700  1       read    18
+105100  1       read    47
+470100  0       exit
+512100  1       exit
+557200  2       exit
+659900  3       exit

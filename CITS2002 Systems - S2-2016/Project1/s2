@@ -1,0 +1,7 @@
+diskrpm		4200
+timequantum	18000
+disksectors	30
+77000	0	admit
+1098000	0	exit
+1638000	1	admit
+828000	1	exit

@@ -1,0 +1,85 @@
+#headertitle, 
+#headercontainer .secondary,
+#breadcrumbs,
+#bodycontainer #navcontainer,
+div#nav-skip,
+#ql_outer,
+#footercontainer,
+#uwa_crest { display: none; }
+
+#headercontainer { margin-left: 0;
+    background-image: none;
+    border-bottom-width: 0; }
+
+#headercontainer .primary { height: 77px;
+    overflow: hidden; }
+
+#print_header { display: block !important;
+    width: 2500px;
+    height: 74px; }
+
+img#print_header { width: 2500px;
+    height: 74px; }
+
+#bodycontainer { padding-left: 0; }
+
+#bodycontainer #pagecontainer { float: none;
+    position: relative;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin-left: 0;
+    padding-top: 0; }
+    #ie6down #pagecontainer { margin-right: 131px; }
+
+#centrecontainer2col #pagebanner { margin-top: 0; }
+
+#centrecontainer2col .internal, 
+#centrecontainer2col #pagecontentbox { border-left-width: 0; }
+
+#pagecontentbox { padding-right: 0;
+    padding-left: 0; }
+
+.section-studentnet #ie6down #pagecontentbox #pagecontent .container-net, 
+.section-staffnet #ie6down #pagecontentbox #pagecontent .container-net { border-width: 0; }
+.section-studentnet #bodycontainer #pagecontentbox #pagecontent .container-net .heading-net h3, 
+.section-staffnet #bodycontainer #pagecontentbox #pagecontent .container-net .heading-net h3 { padding-right: 0;
+    background-image: none; }
+
+
+/* fixes for brand refresh - Timothy - 2015-07-02 */
+
+div#nav_campaign_button {
+    display: none !important;
+}
+#headercontainer {
+    border-top: none !important;
+    height: 90px !important;
+}
+#headercontainer .primary { 
+    height: 90px !important;
+}
+#responsiveToggle {
+    display: none;
+}
+/*
+     FILE ARCHIVED ON 21:49:24 Nov 17, 2016 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:34:59 Aug 11, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  esindex: 0.008
+  LoadShardBlock: 23.369 (3)
+  CDXLines.iter: 16.974 (3)
+  PetaboxLoader3.datanode: 46.594 (5)
+  exclusion.robots: 0.208
+  exclusion.robots.policy: 0.192
+  RedisCDXSource: 0.569
+  PetaboxLoader3.resolve: 98.237 (2)
+  captures_list: 53.517
+  load_resource: 131.421
+*/

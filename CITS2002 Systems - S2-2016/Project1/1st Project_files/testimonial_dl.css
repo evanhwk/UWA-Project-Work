@@ -1,0 +1,87 @@
+/*
+  Running MySource Matrix
+  Developed by Squiz - http://www.squiz.net
+  MySource, MySource Matrix and Squiz.net are registered Trademarks of Squiz Pty Ltd
+  Page generated: 22 August 2016 10:01:27
+*/
+
+
+/* edit 2009.03.20
+   Guan Ming Teo
+
+   testimonial-quote
+
+   - Fixing for new core, as there isn't enough specificity and images are wrong etc.
+
+   // edit: Luke Grimes - 24/02/09 */
+
+#pagecontent .testimonial-quote { margin-bottom: 1.25em;
+    border: 1px solid #b2b2b2;
+    text-align: center; }
+    #ie6down .testimonial-quote { height: 1%; }
+
+#pagecontent .rightcol .testimonial-quote { font-size: 1.090909em; /* 12/11 */ }
+
+#pagecontent .testimonial-quote h3 { margin: 3px 3px 0;
+    padding: 0;
+    background-color: #000;
+    border-bottom-width: 0;
+    color: #fff; }
+#pagecontent .testimonial-quote h3 img { margin: 0; }
+
+#pagecontent .testimonial-quote img { margin: 0 0 3px;
+    padding: 0;
+    vertical-align: bottom; }
+
+#pagecontent .testimonial-quote dl { margin: 0px;
+    text-align: left; }
+#pagecontent .testimonial-quote dl dt, 
+#pagecontent .testimonial-quote dl dd, 
+#pagecontent .testimonial-quote p.byline { margin: 0.5em 0;
+    padding: 0 0.5em; }
+#pagecontent .testimonial-quote dl dt, 
+#pagecontent .testimonial-quote p.byline { margin-top: 0;
+    padding-top: 0.5em;
+    font-weight: 800;
+    text-transform: uppercase; }
+#pagecontent .testimonial-quote p.byline { margin-bottom: 0; 
+    padding-bottom: 0.5em;
+    text-align: right; }
+
+#pagecontent .testimonial-quote dl dd blockquote { margin: 0;
+    padding-bottom: 1.25em;
+    background: url('http://web.archive.org/web/20160822023000im_/http://www.digital.uwa.edu.au/__data/assets/image/0017/72143/testimonial-quote-bottom.gif') no-repeat 100% 100%;
+    border: 1px solid #fff;
+    color: #0a65a6; }
+#pagecontent .testimonial-quote dl dd blockquote p.first-para { padding-top: 20px;
+    background: url('http://web.archive.org/web/20160822023000im_/http://www.digital.uwa.edu.au/__data/assets/image/0014/72140/testimonial-quote-top.gif') no-repeat 0 0; }
+#pagecontent .testimonial-quote dl dd blockquote p { margin: 0.5em 0; }
+/* end testimonial-quote */
+
+/* testimonial-box */
+.testimonial-box {
+    border: 1px solid #b2b2b2;
+    margin: 5px 1px 20px;
+    padding: 10px 5px;
+}
+/*
+     FILE ARCHIVED ON 02:30:00 Aug 22, 2016 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:33:44 Aug 11, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  RedisCDXSource: 42.476
+  exclusion.robots.policy: 0.522
+  PetaboxLoader3.resolve: 36.108
+  esindex: 0.016
+  CDXLines.iter: 17.289 (3)
+  LoadShardBlock: 123.359 (3)
+  load_resource: 113.711
+  PetaboxLoader3.datanode: 181.268 (4)
+  captures_list: 188.744
+  exclusion.robots: 0.551
+*/

@@ -1,0 +1,1671 @@
+/**** id-core-full.css
+ *
+ *          Table of Contents
+ *
+ * 1        Eric Meyer's CSS Reset [modified]
+ * 2        X/HTML Elements 
+ * 2-1          Headings 
+ * 2-1-1        Main content headings 
+ * 2-1-2        Further Info headings 
+ * 2-2          Links 
+ * 2-3          Lists 
+ * 2-4          Images 
+ * 3        Generic reusable classes 
+ * 3-1          Vertical Centering by Janovsky
+ * 3-2          Float clearing without source markup
+ * 3-3          Text alignment classes
+ * 4        Page framework 
+ * 4-1          Jello Mold width control
+ * 4-2          Right column template 
+ * 5        UWA Visual Identity framework 
+ * 5-1          Header material 
+ * 5-2          Quick Links 
+ * 5-3          Local links block 
+ * 5-4          Search form 
+ * 5-5          Hierarchical navigation 
+ * 5-6          Page container 
+ * 5-6-1        Breadcrumbs 
+ * 5-6-2        Page banner 
+ * 5-6-3        Page content area 
+ * 5-7          Footer block 
+ * 6        Visual Identity devices 
+ * 6-1          Borders 
+ * 6-2          Lists 
+ * 6-3          Inline style 
+ * 7        In-page layout 
+ *
+ *** end table of contents ***/
+
+/**** 1: Eric Meyer's CSS Reset [modified]
+ * http://meyerweb.com/eric/tools/css/reset/
+ * v1.0 | 20080212
+ */
+body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0; padding: 0; border: 0; outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+:focus { outline: 0; }                  /* TODO: Remember to define focus styles! */
+/* input,
+select, 
+textarea { font: 1em Arial, Helvetica, sans-serif;
+    color: #464646; } */                /* TODO: In holding until we can switch most sites simultaneously, sorry Ming */
+select { cursor: pointer; }
+ins { text-decoration: none; }          /* TODO: Remember to highlight inserts somehow! */
+del { text-decoration: line-through; }
+sub { vertical-align: sub; }
+sup { vertical-align: super; }
+/* NB: Tables still need cellspacing="0" */
+table { border-collapse: collapse; border-spacing: 0; }
+
+
+
+/**** 2: X/HTML Elements ****/
+
+body {
+    color: #464646;
+    font-size: 75%; /* 12/16 */
+    line-height: 1.25; /* 15/12 */
+    font-family: Arial, Helvetica, sans-serif;
+}
+p { margin-bottom: 1.25em; /* 15/12 */ }
+blockquote { margin-bottom: 1.25em; }
+blockquote.indent { margin-left: 2.5em; margin-right: 2.5em; }
+
+hr, 
+.separator { height: 1px;
+    overflow: hidden;
+    margin-bottom: 1.25em; /* 15/12 */
+    border-width: 0 0 1px;
+    border-style: solid;
+    border-color: #d7d7d7; }
+
+/* Usage: <div class="separator">&nbsp;</div>
+   Reduces division to 1px in height. */
+.separator { background: transparent url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif') repeat-x 0 -1px;
+    border-width: 0; }
+
+/* Usage: <h3 class="separator-above">Rar</h3>
+   Separators that are attached to elements that include copy
+   Mostly legacy support (that's why it has a terrible name.)
+   However, if it DOES need to be used, .separator-above is
+   a better class name. */
+#bodycontainer #pagecontent .newsarticle, 
+#bodycontainer #pagecontent .separator-above { padding-top: 1.25em; /* 15/12 */
+    background: transparent url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif') repeat-x 0 -1px; }
+    #ie7 #pagecontent .newsarticle, 
+    #ie7 #pagecontent .separator-above { min-height: 1%; }
+    #ie6down #pagecontent .newsarticle, 
+    #ie6down #pagecontent .separator-above { height: 1%; }
+
+code, 
+pre { padding: 0 3px;
+    background-color: #d5eff5;
+    color: #000;
+    font: 1em 'Courier New', Courier, monospace; }
+
+/* 2-1: Headings */
+
+/* 2-1-1: Main content headings */
+#pagecontainer h1,
+#pagecontainer h2,
+#pagecontainer h3,
+#pagecontainer h4,
+#pagecontainer h5,
+#pagecontainer h6 {
+    font: bold 1em/1.2 arial, helvetica, sans-serif;
+    padding: 0;
+}
+#pagecontainer h3 {
+    color: #0864a5;
+    font-size: 1.583333em;           /* 19/12 */
+    margin: 1.2211em 0 0.6105em 0;  /* 4x 12px/1.2 line box at 19px/1.2 needs 1.83157em margin */
+}
+#pagecontainer .rightcol + h3, 
+#pagecontainer h3:first-child {
+    margin-top: 0.46318em;          /* 3x line box, as above, needs 1.07368em margin */
+}
+#pagecontainer h4 {
+    color: #00497b;
+    font-size: 1.25em;                /* 15/12 */
+    margin: 1.12em 0 0.56em 0;      /* 3x 12px/1.2 line box at 15px/1.2 needs 1.68em margin */
+}
+#pagecontainer h5,
+#pagecontainer h6 {
+    color: #363636;
+    font-size: 1.083333em;           /* 13/12 */
+    margin: 1.4154em 0 0.7077em 0;  /* 3x 12px/1.2 line box at 13px/1.2 needs 2.12307em margin */
+}
+
+/* 2-1-2: Further Info headings */
+#pagecontainer .furtherinfo h3,
+#pagecontainer .rightcol h3 {
+    font-weight: normal;
+    font-size: 1.333333em;           /* 16/12 */
+    font-family: Georgia, serif;
+    color: #757575;
+    border-bottom: 1px solid #d7d7d7;
+    letter-spacing: 0.2em;
+    margin: 0 0 1.25em 0; /* 20/16 */
+    padding: 0 0 0.5em 0; /* 8/16 */
+    text-transform: uppercase;
+}
+
+#pagecontainer .furtherinfo h4,
+#pagecontainer .rightcol h4 {
+    font-size: 1em;
+    color: #363636;
+    text-transform: uppercase;
+    margin: 0 0 1.25em 0;
+}
+#pagecontainer .furtherinfo h5,
+#pagecontainer .rightcol h5 {
+    font-size: 1em;
+    color: #363636;
+}
+
+
+
+/* 2-2: Links */ 
+a {
+    color: #0864a5;
+    text-decoration: underline;
+}
+a:focus, 
+a:hover { text-decoration: none; }
+a:visited { color: #746114; }
+
+
+/* 2-3: Lists */
+
+ul, ol, dl {                                /* Top-level lists */
+    /*margin: 1.75em 0; /* 21/12 */
+    margin: 0 0 1.25em;
+    list-style-position: outside;
+}
+ul ul, ul ol, ol ul, ol ol {            /* Sub-lists */
+    margin: 0;
+}
+#bodycontainer ul {                     /* Defaults for unordered lists */
+    list-style-type: none;
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default.gif);
+    } #ieAny ul {
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default-ie.gif);
+}
+ol {                                    /* Defaults for ordered lists */
+    list-style-type: decimal;
+    margin-left: 1.083333em; /* 13/12 */
+}
+ul ol, ol ol {                          /* Ordered sub-lists */
+    list-style-image: none;             /* Stops IE bulleting */
+    margin-left: 0.416666em; /* 5/12 */
+}
+#bodycontainer li {                     /* Defaults for list items */
+    margin: 0.333333em 0 0.333333em 14px; /* 4/12 */
+    } #ieAny li {
+    margin-left: 16px;
+}
+
+
+/* 2-4: Images */
+
+#bodycontainer #pagecontainer img {
+    margin: 0.9em 1.2em 0.4em 0;
+    } #ie6down #pagecontainer img {
+    margin-right: 1.2em;
+    } #ieAny #pagecontainer img {
+    margin: 0.4em 1.2em 0.4em 0;
+}
+#bodycontainer #pagecontainer #pagecontent img:first-child,
+#bodycontainer #pagecontainer #pagecontent h3 + img,
+#bodycontainer #pagecontainer #pagecontent h4 + img,
+#bodycontainer #pagecontainer #pagecontent h5 + img,
+#bodycontainer #pagecontainer #pagecontent h6 + img {
+    margin-top: 0;
+}
+#bodycontainer #pagecontainer #pagecontent #sq_backend_sections img {
+    margin: 0;
+    padding: 0;
+}
+
+
+/**** 3: Generic reusable classes ****/
+
+.clearboth { clear: both; }
+.clearboth-small { clear: both;
+    display: block;
+    visibility: hidden;
+    overflow: hidden;
+    height: 1px;
+    text-decoration: none;
+    text-indent: -10000px; }
+.clearleft { clear: left; }
+.clearright { clear: right; }
+
+.floatleft,
+.imgleft { float: left; }
+
+.floatright,
+.imgright { float: right; }
+
+#bodycontainer #pagecontainer img.floatright,
+#bodycontainer #pagecontainer .imgright img,
+#bodycontainer #pagecontainer img.imgright {
+    margin-top: 0.9em;
+    margin-right: 0;
+    margin-bottom: 0.4em;
+    margin-left: 1.2em;
+}
+
+/* Cancel out double ups etc. */
+
+#bodycontainer #pagecontainer .floatleft .floatleft, 
+#bodycontainer #pagecontainer .floatleft .imgleft, 
+#bodycontainer #pagecontainer .floatleft .floatright, 
+#bodycontainer #pagecontainer .floatleft .imgright, 
+#bodycontainer #pagecontainer .floatleft img, 
+#bodycontainer #pagecontainer .floatright .floatright, 
+#bodycontainer #pagecontainer .floatright .imgright, 
+#bodycontainer #pagecontainer .floatright .floatleft, 
+#bodycontainer #pagecontainer .floatright .imgleft, 
+#bodycontainer #pagecontainer .floatright img { float: none; }
+
+
+/* 3-1: Vertical Centering by Janovsky
+ * http://www.jakpsatweb.cz/css/css-vertical-center-solution.html
+ * Updated May 25 2008
+ */
+#bodycontainer .vmiddle_outer {      /* Instances require a height attribute */
+    display: table;
+    overflow: hidden;
+    width: 100%;
+    } #ie6down .vmiddle_outer,
+      #ie7 .vmiddle_outer {
+    position: relative;
+}
+#bodycontainer .vmiddle_middle {
+    display: table-cell;
+    vertical-align: middle;
+    } #ie6down .vmiddle_middle,
+      #ie7 .vmiddle_middle {
+    position: absolute;
+    top: 50%;
+}
+#ie6down .vmiddle_inner,
+#ie7 .vmiddle_inner {
+    position: relative;
+    top: -50%;
+}
+
+/* 3-2: Float clearing without source markup by Tony Aslett
+ * http://www.positioniseverything.net/easyclearing.html
+ * Updated July 2 2008
+ */
+.clearfix:after {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+    #ie6down .clearfix {
+        height: 1%;
+    }
+    #ie7 .clearfix {
+        min-height: 1%;
+    }
+
+/* 3-3: Text alignment classes */
+#pagecontainer .text-left { text-align: left; }
+#pagecontainer .text-center { text-align: center; }
+#bodycontainer #pagecontainer .text-center img { margin-right: 0;
+    margin-left: 0; }
+#pagecontainer .text-right { text-align: right; }
+#uwo #bodycontainer #pagecontainer .vertical-middle { vertical-align: middle; }
+#pagecontainer .faux-strong { font-weight: bold; }
+#pagecontainer .faux-em { font-style: italic; }
+#pagecontainer .faux-big { font-size: 1.166666em; /* 14/12 */ }
+#pagecontainer .faux-small { font-size: 0.916666em; /* 11/12 */ }
+
+/**** 4: Page framework ****/
+
+#headercontainer .primary,
+#headercontainer .secondary,
+#footercontainer .internal,
+#centrecontainer .internal {
+    min-width: 780px;
+    max-width: 1200px;
+    position: relative;
+}
+
+#centrecontainer2col .internal {
+    max-width: 1018px;  /* 1200 minus left column width */
+    min-width: 598px;   /*  780 minus left column width */
+    position: relative;
+    border-left: 182px solid white;
+}
+
+#bodycontainer #navcontainer {
+    float: left;
+    display: inline;
+    position: relative;
+    width: 182px;
+    margin-left: -182px;
+    min-height: 32em;
+    } #ie6down #navcontainer {
+    height: 32em;
+}
+#rightcontainer {
+    float: right;
+    position: relative;
+    display: none;
+}
+#bodycontainer #pagecontainer {
+    float: left;
+    width: 100%;
+    padding: 1.2em 0 0 0;
+    } #ie6down {
+    height: 1%;
+}
+
+
+/**** 4-1: Jello Mold width control
+ * http://www.positioniseverything.net/articles/jello.html
+ */
+
+/* TODO - edit out, has been farmed out to ie6down.css
+
+
+
+
+/**** 4-2: Right column template ****/
+/* Include the following to enable a right hand column; example is for 200px */
+/* 
+/* #centrecontainer2col .internal {
+/*    max-width: 818px;  /* 1200 minus (left plus right) column widths */
+/*    min-width: 398px;  /*  780 minus (left plus right) column widths */
+/*    border-right: 200px solid yellow;        /* Right column width */
+/* }
+/* #centrecontainer .internal {
+/*     max-width: 1000px;
+/*     min-width: 580px;
+/*     border-right: 200px solid yellow;
+/* }
+/* #rightcontainer {
+/*    display: block;
+/*    width: 200px;                            /* Right column width */
+/*    margin-right: -200px;           /* Negative right column width */
+/*    background-color: orange;
+/* }
+/*
+ */
+
+
+
+
+
+/**** 5: UWA Visual Identity framework ****/
+/* 5-1: Header material */
+
+#headercontainer {                  /* Big black block at the top */
+    height: 112px;
+    border-bottom: 1px solid #c4c4c4;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/search-background.gif) repeat-x bottom;
+    border-top: 3px solid #69c4d9;  /* B-ST: Faculty colour, default is a light blue */
+    background-color: #000000;
+}
+#headercontainer .secondary {
+    height: 38px;
+    margin-top: 74px;
+    vertical-align: bottom;
+}
+#ieAny #headercontainer .secondary { margin-top: 0px; }
+#headercontainer .vmiddle_outer { height: 38px; }
+#headertitle {
+    display: block;                 /* For subclasses override background-image, &  */
+    float: right;                   /* for oversized titles, reduce margin-top such */
+    height: 0px !important;         /* that the baseline stays with the crest.      */
+    padding: 37px 0 0 0;
+    margin: 37px 11px 0 0;
+    overflow: hidden !important;
+    background: no-repeat top right;
+    width: 556px !important;        /* Never increase this value (or you'll break IE6 at low widths) */
+    display: inline; /*A-DMB*/
+}
+
+img#uwa_crest {
+    float: left;
+    width: 200px;
+    height: 54px;
+    padding: 12px 0 0 10px;
+}
+
+
+div#nav-skip { position: absolute;
+    z-index: 1; 
+    right: 1em; /* 12/12 */
+    padding: 2px 15px 2px 5px;
+    background: #363636 url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/ql_rightbottom.gif') no-repeat 100% 100%; }
+    #ie7 div#nav-skip, 
+    #ie6down div#nav-skip { padding-top: 1px; }
+div#nav-skip a { font-size: 0.916666em; /* 11/12 */
+    color: #e2e2e2;
+    text-decoration: none; }
+div#nav-skip a:focus, 
+div#nav-skip a:hover, 
+div#nav-skip a:active { text-decoration: underline; }
+
+
+/* 5-2: Quick Links */
+
+#ql_outer, #ql_inner, #ql_inner a, #ql_inner a:hover {
+    background-repeat: no-repeat;
+}
+#ql_outer {
+    color: #ffffff;
+    position: absolute;
+    right: 10.416666em; /* 120/12 */
+    padding-left: 5px;
+    background: #363636 url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/ql_leftbottom.gif) left bottom;
+    z-index: 20;
+}
+#ql_inner {
+    font-size: 0.916666em; /* 11/12 */
+    padding: 2px 0;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/ql_rightbottom.gif) right bottom;
+}
+#ql_inner a {
+    color: #e2e2e2;
+    text-decoration: none;
+    margin: 0 10px 0 2px;
+    padding-left: 5px;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/ql_linkarrow.gif) left center;
+}
+#ql_inner a:focus, 
+#ql_inner a:hover {
+    text-decoration: underline;
+}
+a#ql_button {
+    text-decoration: none;
+    margin: 1px 5px 0 4px;
+    padding-right: 11px;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/ql_reticle.gif) right center;
+}
+#ql_extra { padding: 2px 15px 0 5px; }
+#ql_list li { display: inline; }
+#ql_list, #ql_extra { display:none; }
+#ql_outer, #ql_inner, #ql_inner a, #ql_inner a:hover { background-repeat: no-repeat; }
+
+
+
+/* 5-3: Local links block */
+
+#bodycontainer #locallinks {
+    position: relative;
+    float: left;
+    height: 25px;
+    padding-top: 13px;
+    /*line-height: 1.0;*/   /* Was this better in some way? */
+}
+
+#bodycontainer #locallinks ul {
+    display: inline;
+}
+#bodycontainer #locallinks li {
+    display: inline;
+    margin: 0 6px 0 8px;
+}
+#bodycontainer #locallinks li a {
+    padding: 0 0 0 14px;
+    background: transparent url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-link.gif) no-repeat left center;
+    font-weight: bold;
+    text-decoration: none;
+    color: #757575;
+}
+#bodycontainer #locallinks li a:focus, 
+#bodycontainer #locallinks li a:hover {
+    text-decoration: underline;
+}
+
+
+/* 5-4: Search form */
+#bodycontainer form#uwasearch fieldset {
+    position: relative;
+    float: right;
+    height: 29px;
+    padding-top: 9px;
+} #ie7 form#uwasearch fieldset, 
+  #ie6down form#uwasearch fieldset {
+    height: 30px;
+    padding-top: 8px; /* spacing discrepancy */
+}
+
+#bodycontainer form#uwasearch dl {
+    display: inline;
+    margin: 0;
+}
+#bodycontainer form#uwasearch dl dd, 
+#bodycontainer form#uwasearch p {
+    float: left;
+    display: inline;
+    margin: 0;
+}
+
+#bodycontainer form#uwasearch dl dt { 
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+}
+
+#bodycontainer form#uwasearch dl dd input, 
+#bodycontainer form#uwasearch dl dd select { 
+    margin: 0;
+    padding: 1px;
+    border: 1px solid #7f9db9;
+} #ie7 form#uwasearch dl dd input,
+  #ie6down form#uwasearch dl dd input {
+    margin: -1px 0 0;
+    padding: 2px; /* spacing discrepancy */
+}
+
+#bodycontainer form#uwasearch dl dd select#query {
+    margin-right: 2px;
+    margin-left: 4px;
+    padding: 0;
+}
+
+#bodycontainer form#uwasearch p input#submitsearch {
+    margin: -1px 8px 0 0;
+} #ie7 form#uwasearch p input#submitsearch, 
+  #ie6down form#uwasearch p input#submitsearch {
+    margin-top: 0; /* spacing discrepancy */
+}
+
+/* UWA Search form legacy support */
+
+#uwasearch ul { margin: 0; }
+#uwasearch li {
+    margin: 0;
+    display: inline;
+    float: left;
+}
+#uwasearch label { display: none; }     /* Overridden for aural & braille */
+input#submitsearch { margin-right: 8px; }
+select#query {
+    margin-right: 2px;
+    margin-left: 4px;
+}
+
+/* 5-5: Hierarchical navigation */
+
+#navcontainer { padding: 2.6em 0 3em 0; }
+
+/* ---ul/li--- */
+#navcontainer ul {
+    margin: 0 9px 0 8px;
+    list-style-image: none;
+    line-height: 1.15;
+    } #ie6down #navcontainer ul {
+    height: 1%;
+}
+#navcontainer ul ul {
+    margin: 0 0 1.8em 0;
+}
+#navcontainer ul ul ul {
+    margin: 0.25em 0 0 15px;
+    padding-bottom: 0.2em;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif) repeat-x left bottom;    /* Colour: light grey */
+}
+#navcontainer ul ul ul ul {
+    margin: 0 0 0 10px;
+    padding-bottom: 0;
+    background: none;
+}
+#navcontainer li {
+    margin: 0;
+    padding: 1px 0 0 0;
+    border-bottom: 1px solid #D7D7D7;
+    } #ie6down #navcontainer li {
+    height: 1%;
+}
+#navcontainer li li {
+    padding: 0;
+    border-bottom: 0;
+}
+
+
+/* ---a--- */
+#navcontainer a {
+    display: block;
+    padding: 0.3em 0 0.55em 15px;
+    text-decoration: none;
+    font-weight: bold;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/nav-arrow.gif) no-repeat left 5px;
+    } #ie6down #navcontainer a {
+    height: 1%;
+}
+#navcontainer a:visited { color: #0864a5; }
+#navcontainer a:focus, 
+#navcontainer a:hover { text-decoration: underline; }
+#navcontainer a.pageon {
+    font-weight: bold;
+    background-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/nav-arrow-current.gif);
+}
+#navcontainer a.pageon,
+#navcontainer a:visited.pageon {
+    color: #746114;
+}
+#navcontainer ul ul a,
+#navcontainer ul ul a.pageon {
+    padding-left: 0;
+    margin-left: 15px;
+    font-size: 0.916666em; /* 11/12 */
+    font-weight: normal;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif) repeat-x left bottom;    /* Colour: light grey */
+    border-bottom-width: 0;
+}
+#navcontainer ul ul a.pageon {
+    font-weight: bold;
+}
+#navcontainer ul ul ul a,
+#navcontainer ul ul ul a.pageon {
+    margin-left: 0;
+    padding: 0.2em 0 0.4em 10px;
+    font-weight: normal;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/nav-triangle.gif) no-repeat 1px 7px;
+}
+
+
+/**** 5-6: Page container ****/
+/* 5-6-1: Breadcrumbs */
+
+#bodycontainer ol#breadcrumbs {
+    font-size: 0.916666em; /* 11/12 */
+    padding: 0;
+    margin: 0;
+}
+
+#bodycontainer ol#breadcrumbs li {
+    display: inline;
+    margin: 0;
+    /*padding-right: 0.818181em; / * 9/11 */
+    /*background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-discrete.gif') no-repeat 100% 50%; */
+    white-space: normal;
+} #ie7 ol#breadcrumbs li, 
+  #ie6down ol#breadcrumbs li {
+    /* margin-right: 0.272727em; / * 3/11 * /
+    padding-right: 0.545454em; / * 6/11 */
+}
+
+#bodycontainer ol#breadcrumbs li a { padding-right: 0.818181em; /* 9/11 */
+    background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-discrete.gif') no-repeat 100% 50%;
+    white-space: nowrap; }
+    #ie7 ol#breadcrumbs li a, 
+    #ie6down ol#breadcrumbs li a { display: inline-block; }
+
+#bodycontainer ol#breadcrumbs li.currentpage { padding-right: 0;
+    background-image: none;
+    white-space: nowrap; }
+
+#centrecontainer ol#breadcrumbs { padding-left: 26px; /* == left padding on #pagecontentbox */ }
+
+/* Breadcrumbs legacy support */
+#bodycontainer ol#breadcrumbs li span.currentpage { background-color: #fff;
+    white-space: nowrap; }
+#bodycontainer ol#breadcrumbs li:last-child { background-image: none; }
+#bodycontainer ol#breadcrumbs li span.decorative { display: none; }
+
+
+
+/* 5-6-2: Page banner */
+
+#pagebanner {
+    background: #ede7d3 url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/page-banner-dotoverlay.gif) repeat-y top right;
+    margin: 1.2em 0 0 26px;
+}
+#centrecontainer2col #pagebanner {
+    margin: 1.2em 0 0 0;
+}
+#pagebanner .underlay,
+#pagebanner .spacer,
+#pagebanner p,
+#pagebanner br {
+    display: none;
+}
+#bodycontainer #pagebanner .copy {
+    padding: 1em 250px 0.9em 15px;
+    border-left: 15px solid #69c4d9;    /* B-ST: Faculty color, default is a light blue */
+    } #ieAny #pagebanner .copy {
+    height: 1%;
+}
+#pagebanner h1 {
+    color: #000000;
+    font: bold 100%/1.1 Arial, Helvetica, sans-serif;
+    margin: 0 0 0.4em 0;
+}
+#pagebanner h2 {
+    color: #564c23;
+    font: normal 208.3333%/1.1 Georgia, serif;  /* 25/12 */
+    margin: 0;
+}
+
+
+/* 5-6-3: Page content area */
+
+#pagecontentbox {
+    margin: 1.6em 0 2.7em 0;
+    padding: 0 30px;
+    min-height: 20em;
+  /*overflow: hidden;*/
+    word-wrap: break-word;
+}
+#centrecontainer2col #pagecontentbox {
+    border-left: 1px solid #d7d7d7;
+}
+#pagecontainer div.leftcol {
+    margin-right: 187px;
+    padding-right: 2em;
+    border: 1px solid white;    /* Required for unbroken dotted grey line */
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif) repeat-y top right;
+}
+
+#pagecontainer div.rightcol {
+    font-size: 0.916666em;      /* 11/12 */
+    width: 173px;
+    min-width: 173px;           /* IE7 will auto-size, otherwise */
+    margin-left: 14px;
+    float: right;
+    clear: right;
+    position: relative;
+    } #ieAny #pagecontainer div.rightcol {
+    display: inline;
+}
+#pagecontainer div.leftcol .leftcol,
+#pagecontainer div.rightcol .rightcol,             /* When nested content */
+#ieAny #pagecontainer div.rightcol .rightcol {     /* goes very wrong...  */
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    width: auto;
+    min-width: 0;
+    float: none;
+    clear: none;
+    position: static;
+    display: block;
+}
+
+#bodycontainer #ie6down #pagecontainer div.rightcol img {
+    margin-right: 0;
+}
+
+
+/* 5-7: Footer block */
+
+#footercontainer {
+    clear: both;
+    border-top: 1px solid #c4c4c4;
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/footer-background.jpg) repeat-x;
+    height: 219px;
+    font-size: 0.916666em;    /* 11/12 */
+}
+#footercontainer .internal {
+    background: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/footer-watermark.gif) no-repeat;
+    padding: 27px 0 0 0;
+    overflow: visible;
+    height: 219px;
+}
+#bodycontainer #footercontainer .column,
+#bodycontainer #footercontainer #page_info {
+    border-left: 1px solid #c4c4c4;
+    float: left;
+    width: 142px;
+    padding: 0 14px 0 21px;
+    min-height: 168px;
+}
+
+#bodycontainer #footercontainer #footerfirstcol {
+    border: 0;
+    width: 147px;
+}
+#footerfirstcol .shifter {
+    border: 0px solid red;
+    position: relative;
+    height: 2.4em;
+}
+#footerfirstcol h1 {
+    font: normal normal normal 136.3636%/1.1 Georgia, serif;    /* 15/11 */
+    position: absolute;
+    bottom: 0;
+}
+#footercontainer li {
+    line-height: 1.15;
+    margin-bottom: 0.45em;
+}
+#page_info {
+    float: left;
+    width: 218px;
+    padding-left: 23px;
+    padding-right: 0;
+    position: relative;
+}
+#page_info p {
+    margin-bottom: 0.8em;
+}
+#page_info h2 { margin-bottom: 0.5em; }
+img#info_arrow {
+    position: absolute;
+    left: 0;
+}
+#footercontainer a {
+    color: #5c5c5c;
+    text-decoration: none;
+}
+#footercontainer a:focus, 
+#footercontainer a:hover { text-decoration: underline; }
+
+
+/* ==: Site sections */
+/* ===: StudentNet, StaffNet, Alumni, etc. */
+
+.section-staffnet #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-staffnet.gif'); }
+.section-studentnet #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-studentnet.gif'); }
+.section-alumni #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-alumni.gif'); }
+.section-research #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-research.gif'); }
+.section-studentnet-hk #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-studentnet-hk.gif'); }
+.section-studentnet-shang #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-studentnet-shang.gif'); }
+.section-studentnet-sing #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-studentnet-sing.gif'); }
+.section-studentnet-manila #pagebanner { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/sections/pagebanner-studentnet-manila.gif'); }
+
+
+/* ==: Page types */
+/* ===: Landing pages */
+
+.pagetype-landing #pagebanner,
+.pagetype-landing #bodycontainer #pagebanner .underlay .overlay {
+    min-height: 231px;
+    background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/page-banner-landingoverlay.gif');
+    background-repeat: repeat-y;
+    background-position: top right;
+    } .pagetype-landing #ie6down #pagebanner, 
+      .pagetype-landing #bodycontainer #pagebanner .underlay .overlay {
+    height: 231px;
+}
+.pagetype-landing #pagebanner .underlay {
+    float: right;
+    display: inline;
+    width: 288px;
+    height: 231px;
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+}
+.pagetype-landing #bodycontainer #pagebanner .copy {
+    padding-top: 2em;
+    padding-right: 318px;
+    padding-left: 0;
+    border-left-width: 0;
+    } .pagetype-landing #ie8up #pagebanner .copy {
+        padding-right: 312px;
+    } .pagetype-landing #ie7 #pagebanner .copy, 
+      .pagetype-landing #ie6down #pagebanner .copy {
+        padding-right: 30px;
+}
+.pagetype-landing #pagebanner h1 { position: absolute;
+    left: -10000px;
+    top: -10000px; }
+.pagetype-landing #pagebanner h2 {
+    margin: 0;
+    padding: 0 0 0 15px;
+    border-left: 15px solid #7ac4d9;
+    font: bold 2.5em Arial, Helvetica, sans-serif; /* 30/12 */
+    color: black;
+    line-height: 0.85;
+    letter-spacing: -1px;
+}
+.pagetype-landing #pagebanner p {
+    display: block;
+    margin: 0;
+    padding: 1em 0 0 30px;
+    font: 1.25em Georgia, serif; /* 15/12 */
+    color: #564c23;
+    line-height: 1.7;
+}
+
+.pagetype-landing #pagebanner p a { color: #000; }
+.pagetype-landing #pagebanner p a:visited { color: #746114; }
+
+.pagetype-landing #pagecontent .rightcol { font-size: 1em; /* 12/12 */ }
+.pagetype-landing #pagecontent .rightcol h3 { padding-bottom: 0;
+   border-bottom-width: 0;
+   color: #564c23; }
+
+
+/* 5-8: Colour branding */
+.faculty-ahss #bodycontainer #pagebanner .copy,
+body.faculty-ahss #pagebanner h2 { border-left-color: #95519e; }
+.faculty-ahss #headercontainer { border-top-color: #95519e; }
+
+.faculty-alva #bodycontainer #pagebanner .copy,
+body.faculty-alva #pagebanner h2 { border-left-color: #e2b800; }
+.faculty-alva #headercontainer { border-top-color: #e2b800; }
+
+.faculty-biz #bodycontainer #pagebanner .copy,
+body.faculty-biz #pagebanner h2 { border-left-color: #4069ba; }
+.faculty-biz #headercontainer { border-top-color: #4069ba; }
+
+.faculty-ecm #bodycontainer #pagebanner .copy,
+body.faculty-ecm #pagebanner h2 { border-left-color: #ce7019; }
+.faculty-ecm #headercontainer { border-top-color: #ce7019; }
+
+.faculty-ed #bodycontainer #pagebanner .copy,
+body.faculty-ed #pagebanner h2 { border-left-color: #5FAB9A; }
+.faculty-ed #headercontainer { border-top-color: #5FAB9A; }
+
+.faculty-flps #bodycontainer #pagebanner .copy,
+body.faculty-flps #pagebanner h2 { border-left-color: #efd67e; }
+.faculty-flps #headercontainer { border-top-color: #efd67e; }
+
+.faculty-fnas #bodycontainer #pagebanner .copy, 
+body.faculty-fnas #pagebanner h2 { border-left-color: #75BA61; }
+.faculty-fnas #headercontainer { border-top-color: #75BA61; }
+
+.faculty-is #bodycontainer #pagebanner .copy,
+body.faculty-is #pagebanner h2 { border-left-color: #dd291e; }
+.faculty-is #headercontainer { border-top-color: #dd291e; }
+
+.faculty-law #bodycontainer #pagebanner .copy,
+body.faculty-law #pagebanner h2 { border-left-color: #4b63ae; }
+.faculty-law #headercontainer { border-top-color: #4b63ae; }
+
+.faculty-meddent #bodycontainer #pagebanner .copy,
+body.faculty-meddent #pagebanner h2 { border-left-color: #872434; }
+.faculty-meddent #headercontainer { border-top-color: #872434; }
+
+.faculty-sciences #bodycontainer #pagebanner .copy,
+body.faculty-sciences #pagebanner h2 { border-left-color: #86a20b; }
+.faculty-sciences #headercontainer { border-top-color: #86a20b; }
+
+
+
+/**** 6: Visual Identity devices ****/
+
+/* 6-1: Borders */
+
+.border,
+.img_borders img, img.img_borders {
+
+    border: 1px solid #c4c4c4;
+    padding: 3px;
+}
+
+
+/* 6-2: Lists */
+
+#bodycontainer ul.linklist,
+#bodycontainer ul li.linklist, 
+#bodycontainer p.linklist, 
+#bodycontainer dl.linklist dt {
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-link.gif);
+    } #ieAny ul.linklist,
+      #ieAny ul li.linklist, 
+      #ieAny p.linklist, 
+      #ieAny dl.linklist dt {
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-link-ie.gif);
+}
+
+#bodycontainer ul.listpadding li,
+#bodycontainer ul li.listpadding,
+#bodycontainer ol.listpadding li,
+#bodycontainer ol li.listpadding,
+#bodycontainer dl.listpadding dd { margin-top: 0.9em;
+    margin-bottom: 0.9em; }
+
+#bodycontainer ul.listpadding ul li,
+#bodycontainer ul.listpadding ol li,
+#bodycontainer ol.listpadding ol li,
+#bodycontainer ol.listpadding ul li,
+#bodycontainer dl.listpadding dl dd { margin-top: 0.333333em; /* 4/12 */
+    margin-bottom: 0.333333em; /* 4/12 */ }
+
+
+
+#bodycontainer ul.nobullet,
+#bodycontainer ul li.nobullet,
+#ieAny ul.nobullet,
+#ieAny ul li.nobullet {
+    margin: 0;
+    padding: 0;
+    list-style-image: none;
+}
+#bodycontainer ul.nobullet li,
+#bodycontainer ul li.nobullet,
+#ieAny ul.nobullet li,
+#ieAny ul li.nobullet {
+    margin: 0 0 1.25em 0;
+}
+
+#bodycontainer ul.nopadding { margin-bottom: 1.25em; /* 15/12 */ }
+#bodycontainer ul.nopadding li, 
+#bodycontainer ul li.nopadding { margin-top: 0.333333em; /* 4/12 */
+    margin-bottom: 0.333333em; /* 4/12 */ }
+
+#bodycontainer ol.list-lower-alpha { list-style-type: lower-alpha; }
+#bodycontainer ol.list-upper-alpha { list-style-type: upper-alpha; }
+#bodycontainer ol.list-lower-roman { list-style-type: lower-roman; }
+#bodycontainer ol.list-upper-roman { list-style-type: upper-roman; }
+
+#bodycontainer p.linklist { display: list-item;
+    margin-left: 14px; }
+
+#bodycontainer dl.list dt, 
+#bodycontainer dl.linklist dt { display: list-item;
+    margin: 1.25em 0 0.333333em 14px; /* 15/12, 4/12 */ }
+#bodycontainer dl.list dt { list-style-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default.gif');
+    font-weight: bold; }
+    #ieAny dl.list dt { list-style-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default-ie.gif'); }
+
+#bodycontainer dl.list dd, 
+#bodycontainer dl.linklist dd { margin: 0 0 0.333333em 14px; /* 4/12 */ }
+    #ieAny p.linklist,
+    #ieAny dl.list dt,
+    #ieAny dl.linklist dt,
+    #ieAny dl.list dd,
+    #ieAny dl.linklist dd { margin-left: 16px; }
+
+#bodycontainer dl.nobullet dt, 
+#bodycontainer dl.nobullet dd { margin-left: 0;
+    list-style-type: none;
+    list-style-image: none; }
+
+#bodycontainer #pagecontent dl.list-columned:after, 
+#bodycontainer #pagecontent dl.list-columned dd:after { clear: left;
+    display: block;
+    height: 0;
+    visibility: hidden;
+    content: ' '; }
+    #ie7 #pagecontent dl.list-columned { min-height: 1%; }
+    #ie6down #pagecontent dl.list-columned { height: 1%; }
+#bodycontainer #pagecontent dl.list-columned dt { float: left;
+    clear: left;
+    width: 12em; /* 144/12 */
+    margin-right: 0.5em; /* 6/12 */
+    padding-bottom: 0.5em; /* 6/12 */
+    font-weight: bold; }
+    #ie6down #pagecontent dl.list-columned dt { display: inline; }
+#bodycontainer #pagecontent dl.list-columned-size-7 dt { width: 7em; /* 84/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-17 dt { width: 17em; /* 204/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-22 dt { width: 22em; /* 264/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-27 dt { width: 27em; /* 324/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-32 dt { width: 32em; /* 384/12 */ }
+
+#bodycontainer #pagecontent dl.list-columned dd { margin-left: 12.5em; /* 150/12 */
+    padding-bottom: 0.5em; /* 6/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-7 dd { margin-left: 7.5em; /* 90/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-17 dd { margin-left: 17.5em; /* 210/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-22 dd { margin-left: 22.5em; /* 270/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-27 dd { margin-left: 27.5em; /* 330/12 */ }
+#bodycontainer #pagecontent dl.list-columned-size-32 dd { margin-left: 32.5em; /* 390/12 */ }
+
+    #ie6down #pagecontent dl.list-columned dd { height: 1%;
+    margin-left: 0; }
+
+/* Testing a fix for IE6 brokenness, from problems with having two email addresses
+   in a list on /incas/contact/ - awright 100114 */
+#bodycontainer #ie6down #pagecontent dl.list-columned-size-7 dd { margin-left: 8em; }
+
+#bodycontainer #pagecontent dl.list-columned dd address { font-style: normal; }
+#bodycontainer #pagecontent dl.list-columned dd address span { display: block; }
+
+/* list split */
+#bodycontainer #pagecontent ul.list-split-half, 
+#bodycontainer #pagecontent ul.list-split-third { margin-left: 0; }
+
+#bodycontainer #pagecontent ul.list-split-half li, 
+#bodycontainer #pagecontent ul li.list-split-half,  
+#bodycontainer #pagecontent ul.list-split-third li, 
+#bodycontainer #pagecontent ul li.list-split-third { display: inline-block;
+    width: 45%;
+    margin-right: 2%;
+    margin-left: 0;
+    padding-left: 16px;
+    background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default.gif') no-repeat 0 0.416666em; /* 5/12 */
+    list-style-image: none;
+    vertical-align: top; }
+    #ie7 #pagecontent ul.list-split-half li, 
+    #ie7 #pagecontent ul li.list-split-half, 
+    #ie6down #pagecontent ul.list-split-half li, 
+    #ie6down #pagecontent ul li.list-split-half, 
+    #ie7 #pagecontent ul.list-split-third li, 
+    #ie7 #pagecontent ul li.list-split-third, 
+    #ie6down #pagecontent ul.list-split-third li, 
+    #ie6down #pagecontent ul li.list-split-third { display: inline; }
+
+/* list split linklists */
+#bodycontainer #pagecontent ul.linklist.list-split-half li, 
+#bodycontainer #pagecontent ul li.linklist.list-split-half, 
+#bodycontainer #pagecontent ul.linklist.list-split-third li, 
+#bodycontainer #pagecontent ul li.linklist.list-split-third { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-link.gif');
+    background-position: 0 0.25em; /* 3/12 */ }
+
+/* list split half */
+#bodycontainer #pagecontent .leftcol ul.list-split-half li, 
+#bodycontainer #pagecontent .leftcol ul li.list-split-half { width: 44%; }
+
+/* list split thirds */
+#bodycontainer #pagecontent ul.list-split-third li, 
+#bodycontainer #pagecontent ul li.list-split-third { width: 28%; }
+
+#bodycontainer #pagecontent .leftcol ul.list-split-third li, 
+#bodycontainer #pagecontent .leftcol ul li.list-split-third { width: 27%; }
+
+/* list inline */
+#bodycontainer #pagecontent .list-inline { line-height: 1.5;
+    list-style-image: none;
+    list-style-type: none; }
+#bodycontainer #pagecontent .list-inline li { display: inline;
+    margin: 0 1em 0 0; /* 12/12 */ }
+
+#bodycontainer #pagecontent .list-inline-border li { margin-right: 0.333333em; /* 4/12 */
+    padding-right: 0.666666em; /* 8/12 */
+    border-right: 1px solid #dadada; }
+    #ie7 #pagecontent .list-inline-border li,
+    #ie6down #pagecontent .list-inline-border li { /* IE 6 and 7 switches <li> inline space around, so much switch margin/padding to suit */
+        margin-right: 0.666666em; /* 8/12 */
+        padding-right: 0.333333em; /* 4/12 */ }
+
+#bodycontainer #pagecontent .list-inline-border li.list-inline-border-last { margin-right: 0;
+    padding-right: 0;
+    border-right-width: 0; }
+
+#pagecontent ol.toc { margin-left: 0;
+    list-style-position: inside; }
+    #ie7 ol.toc, 
+    #ie6down ol.toc { padding-left: 2.5em; /* 30/12 */
+        list-style-position: outside; }
+
+#pagecontent ol.toc li { margin-left: 0;
+    padding: 0.333333em 0 0.583333em; /* 4/12, 7/12 */
+    border-bottom: 1px solid #d8d8d8; }
+
+#pagecontent ol.toc li a, 
+#pagecontent ol.toc li a:visited { text-decoration: none; }
+
+#pagecontent ol.toc li a:focus, 
+#pagecontent ol.toc li a:hover, 
+#pagecontent ol.toc li a:active { text-decoration: underline; }
+
+
+#bodycontainer ul.discretelinks {
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-discrete.gif);
+}
+#bodycontainer #ieAny ul.discretelinks {
+    list-style-image: url(/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-discrete-ie.gif);
+}
+
+
+
+/* 6-3: Inline style */
+
+#pagecontent .introduction {
+    color: #5c5c5c;
+    font-size: 1.166666em;   /*14/12*/
+    font-weight: bold;
+    line-height: 150%;
+}
+
+#pagecontent h3.underline, 
+#pagecontent h4.underline, 
+#pagecontent h3.underline-dotted, 
+#pagecontent h4.underline-dotted { padding-bottom: 0.473684em; /* 9/19 */
+    border-bottom: 1px solid #d8d8d8; }
+#pagecontent h4.underline { padding-bottom: 0.666666em; /* 10/15 */ } 
+#pagecontent h4.underline-dotted { padding-bottom: 0.8em; /* 12/15 */ }
+
+#pagecontent h3.underline-dotted, 
+#pagecontent h4.underline-dotted { background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif') repeat-x 0 100%;
+    border-bottom-width: 0; }
+
+#pagecontent h3.overline, 
+#pagecontent h4.overline,  
+#pagecontent h3.overline-dotted, 
+#pagecontent h4.overline-dotted {
+    border-top: 1px solid #d8d8d8;
+    padding-top: 0.8em;
+}
+#pagecontent h4.overline, 
+#pagecontent h4.overline-dotted { padding-top: 1em; /* 15/15 */ }
+
+#pagecontent h3.overline-dotted, 
+#pagecontent h4.overline-dotted { background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif') repeat-x 0 0;
+    border-top-width: 0; }
+
+#pagecontent h3.epic { font: normal 1.416666em Georgia, 'Times New Roman', Times, serif; /* 17/12 */
+    color: #444;
+    text-transform: uppercase; }
+
+#uwo #bodycontainer #pagecontent .margin-0 { margin: 0; }
+#uwo #bodycontainer #pagecontent .margin-top-0 { margin-top: 0; }
+#uwo #bodycontainer #pagecontent .margin-right-185 { margin-right: 187px; }
+#uwo #bodycontainer #pagecontent .margin-right-215 { margin-right: 215px; }
+#uwo #bodycontainer #pagecontent .margin-right-315 { margin-right: 315px; }
+#uwo #bodycontainer #pagecontent .margin-right-340 { margin-right: 340px; }
+#uwo #bodycontainer #pagecontent .margin-bottom-0 { margin-bottom: 0; }
+#uwo #bodycontainer #pagecontent .margin-left-185 { margin-left: 187px; }
+#uwo #bodycontainer #pagecontent .margin-left-215 { margin-left: 215px; }
+#uwo #bodycontainer #pagecontent .padding-0 { padding: 0; }
+
+/* Asset listings */
+#bodycontainer #pagecontent ul.list-assets { margin: 0 0 1.25em; /* 15/12 */
+    list-style-image: none; }
+#bodycontainer #pagecontent ul.list-assets li { display: inline-block; /* This doesn't work in < FF 3.
+    We know that it doesn't work. The invalid, proprietary CSS property value:
+    display: -moz-inline-box;
+    ... is not a good idea to have invalidating every page of every site.
+    Works in everything else though, even IE 6, by exploiting a bug. */
+    width: 47%;
+    margin: 0.333333em 2% 0.75em 0; /* 4/12, 9/12 */
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: 0 0.25em; /* 3/12 */
+    vertical-align: top; }
+    #bodycontainer #ie7 ul.list-assets li, 
+    #bodycontainer #ie6down ul.list-assets li { display: inline;
+        width: 46%; }
+
+#bodycontainer #pagecontent ul.list-assets li a, 
+#bodycontainer #pagecontent ul.list-assets li span { display: block;
+    padding-left: 40px; }
+    #bodycontainer #ie6down ul.list-assets li a { height: 1%; }
+
+#bodycontainer #pagecontent ul.list-assets li span { font-style: italic; }
+
+#bodycontainer #pagecontent ul.list-assets li span.accessible { position: absolute;
+    left: -10000px;
+    top: -10000px;
+    text-decoration: none; }
+
+#bodycontainer #pagecontent ul.list-assets li span.file-author, 
+#bodycontainer #pagecontent ul.list-assets li span.file-details, 
+#bodycontainer #pagecontent ul.list-assets li span.file-published, 
+#bodycontainer #pagecontent ul.list-assets li span.file-updated { margin-top: 5px;
+    padding-left: 95px;
+    background-repeat: no-repeat;
+    background-position: 40px 0.166666em; /* 2/12 */ }
+
+#bodycontainer #pagecontent ul.list-assets-onecol li, 
+#bodycontainer #pagecontent .rightcol ul.list-assets li, 
+    #bodycontainer #ie7 .rightcol ul.list-assets li, 
+    #bodycontainer #ie6down .rightcol ul.list-assets li { display: list-item;
+    width: auto;
+    margin-right: 0; }
+
+#bodycontainer #pagecontent .rightcol ul.list-assets li span.file-author, 
+#bodycontainer #pagecontent .rightcol ul.list-assets li span.file-details, 
+#bodycontainer #pagecontent .rightcol ul.list-assets li span.file-published, 
+#bodycontainer #pagecontent .rightcol ul.list-assets li span.file-updated { padding-left: 40px;
+    text-indent: 55px; }
+
+#bodycontainer #pagecontent ul.list-assets li span.file-author { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/files/icon-author.gif'); }
+#bodycontainer #pagecontent ul.list-assets li span.file-details { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/files/icon-details.gif'); }
+#bodycontainer #pagecontent ul.list-assets li span.file-published { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/files/icon-published.gif'); }
+#bodycontainer #pagecontent ul.list-assets li span.file-updated { background-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/files/icon-updated.gif'); }
+
+#bodycontainer #pagecontent ul.list-assets li span a, 
+#bodycontainer #pagecontent ul.list-assets li span span { display: inline;
+    padding: 0;
+    height: auto; }
+
+#pagecontent div.listed_file img { float: left;
+    margin: 0.5em 0.5em 0.5em 0; /* 6/12 */
+    padding: 0; }
+    #ie6down div.listed_file img { display: inline; }
+
+#pagecontent div.listed_file div { margin-left: 3.25em; /* 39/12 */
+    padding-right: 1.5em; /* 18/12 */ }
+#pagecontent div.listed_file .filetype { color: #838383; }
+#pagecontent div.listed_file .filedate { font-style: italic; }
+
+/* Highlightbox */
+#pagecontent .highlightbox { min-height: 1.25em; /* 15/12 */
+    padding: 1.75em 1em 1.75em 65px; /* 21/12, 12/12 */
+    background: #f3f3f3 url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/devices/highlightbox-bg.gif') no-repeat 0 50%;
+    border: 1px solid #dbdbdb; }
+    #ie6down .highlightbox { height: 1.25em; /* 15/12 */ }
+
+#pagecontent div.highlightbox { margin-bottom: 1.25em; /* 15/12 */
+    padding-bottom: 0.5em; /* 6/12 */ }
+
+#pagecontent .rightcol .highlightbox { min-height: 1px;
+    padding-top: 1.25em; /* 15/12 */
+    padding-bottom: 1.25em; /* 15/12 */
+    padding-left: 1em; /* 12/12 */
+    background-image: none; }
+#pagecontent .rightcol div.highlightbox { margin-bottom: 1.25em; /* 15/12 */
+    padding-bottom: 0; }
+
+#pagecontent .highlightbox .highlightbox { min-height: 1px;
+    padding: 0;
+    background-color: transparent;
+    background-image: none;
+    border-width: 0; }
+    #ie6down .highlightbox .highlightbox, 
+    #ie6down .rightcol .highlightbox { height: auto; }
+
+/* edit 2012.05.08
+   Guan Ming Teo
+
+   bluelightbox addition */
+
+#bodycontainer #pagecontent .bluelightbox { margin: 0 0 1.25em 0; /* 15/12 */
+    padding: 1px 12px;
+    background-color: #d9f7fb;
+    border: 1px solid #52dbe7; }
+
+#bodycontainer #pagecontent .bluelightbox h3 { margin: -1px -12px 12px;
+    padding: 5px 12px 7px;
+    background-color: #52dbe7;
+    border-width: 0;
+    color: #333; }
+
+/* end edit 2012.05.08 */
+
+/* Course information right column layout (2009.02.24)
+   please note: these really shouldn't be <h4>s, they should be <h3>s
+   (or have a <h3>Course Information</h3> above them,)
+   but as long as we are linking old copy we can't really
+   change it. Remember that it needs fixing, future people.
+
+   For the now, we will leave it as-is. */
+#bodycontainer #pagecontent .rightcol .coursesouter { border-width: 3px 3px 0 3px;
+    border-style: solid;
+    border-color: #dbdbdb; }
+    #ie6down #pagecontent .rightcol .coursesouter { height: 1%; }
+
+#bodycontainer #pagecontent .rightcol .coursesinner { padding: 1.25em 0.833333em 1px; /* 15/12, 10/12 */
+    border-bottom: 3px solid #dbdbdb; }
+
+#bodycontainer #pagecontent .rightcol .coursesouter .coursesinner h4 { color: #00497b;
+    font-size: 1.090909em; /* 12/11 */
+    text-transform: none; }
+
+#bodycontainer #pagecontent .rightcol .coursesouter .text-center { margin-top: 1px; }
+
+#bodycontainer #pagecontent .rightcol .coursesouter .text-center img { margin: 0;
+    padding: 0; }
+
+/* Contact us map */
+#pagecontent .floatcontactmap { float: right;
+    width: 306px;
+    padding-left: 1em; /* 12/12 */ }
+    #ie6down .floatcontactmap { display: inline; }
+#pagecontent .floatcontactmap img { margin-right: 0;
+    margin-left: 0; }
+
+#bodycontainer #pagecontent .sections-accordion { padding-right: 3px;
+    padding-left: 3px; }
+
+/* 7: In-page layout */
+
+/* ?? Tables */
+#uwo #pagecontent table, 
+#bodycontainer #pagecontent table.altrow, 
+#bodycontainer #pagecontent table.ruled { margin-bottom: 1.25em; /* 15/12 */ }
+
+#uwo #pagecontent table tr th, 
+#uwo #pagecontent table tr td { padding: 0.25em 0.5em; /* 3/12, 6/12 */
+    vertical-align: top; } 
+#bodycontainer #pagecontent table.altrow tr th, 
+#bodycontainer #pagecontent table.ruled tr th, 
+#bodycontainer #pagecontent table.altrow tr td, 
+#bodycontainer #pagecontent table.ruled tr td { padding: 0.5em; /* 6/12 */
+    vertical-align: top; }
+
+#uwo #pagecontent table tbody tr th, 
+#bodycontainer #pagecontent table.altrow tbody tr th, 
+#bodycontainer #pagecontent table.ruled tbody tr th { text-align: left; }
+
+#uwo #pagecontent table tbody tr th.text-center, 
+#uwo #pagecontent table tbody tr.text-center th, 
+#bodycontainer #pagecontent table.altrow tbody tr th.text-center, 
+#bodycontainer #pagecontent table.altrow tbody tr.text-center th, 
+#bodycontainer #pagecontent table.ruled tbody tr th.text-center, 
+#bodycontainer #pagecontent table.ruled tbody tr.text-center th { text-align: center; }
+
+#bodycontainer #pagecontent table.altrow tr.dark, 
+#bodycontainer #pagecontent table.altrow tr.dark th, 
+#bodycontainer #pagecontent table.altrow tr.dark td, 
+#bodycontainer #pagecontent table.altrow tr th.dark, 
+#bodycontainer #pagecontent table.altrow tr td.dark { background-color: #f4f4f4; }
+
+/* In my opinion, if it's for headings for entire columns, 
+   it should be under "table.altrow thead tr th"
+   so maybe we should talk about this rule?
+
+   Don't forget with WCAG 2.0 we have to do tables differently ... */
+#bodycontainer #pagecontent table.altrow thead tr th, 
+#bodycontainer #pagecontent table.altrow tr td.altrow-th { padding: 1em; /* 12/12 */
+    background-color: #e2e2e2;
+    font-weight: bold;
+    text-transform: uppercase; }
+
+#bodycontainer #pagecontent table.ruled tr th, 
+#bodycontainer #pagecontent table.ruled tr td { border-width: 1px 0;
+    border-style: solid;
+    border-color: #d7d7d7; }
+
+#bodycontainer #pagecontent table.altrow tr th, 
+#bodycontainer #pagecontent table.altrow tr .altrow-th, 
+#bodycontainer #pagecontent table.ruled tr th { padding-top: 0.583333em; /* 7/12 */
+    /* less specificity on .altrow-th so that the padding-top doesn't go through */
+    font-size: 0.916666em; /* 11/12 */
+    text-transform: uppercase; }
+
+#bodycontainer #pagecontent div.table-size-99 table, 
+#bodycontainer #pagecontent table.table-size-99, 
+#bodycontainer #pagecontent div.tables99 table,
+#bodycontainer #pagecontent table.tables99 { width: 99%; }
+
+
+/* ?? Soft columns */
+
+.floathalf {
+    float: left;
+
+    width: 47%;
+    margin-right: 2%;
+
+    } #ie6down .floathalf,
+      #ie7 .floathalf {
+
+    width: 46%;
+    display: inline;
+    height: 1%;
+}
+
+.floatthird {
+    float: left;
+
+    width: 31%;
+    margin-right: 2%;
+
+    } #ie6down .floatthird,
+      #ie7 .floatthird {
+
+    display: inline;
+    height: 1%;
+}
+
+.floattwothirds {
+    float: left;
+
+    width: 64%;
+    margin-right: 2%;
+
+    } #ie6down .floattwothirds,
+      #ie7 .floattwothirds {
+
+    display: inline;
+    height: 1%;
+}
+
+/* edit 2011.09.06
+   Guan Ming Teo
+
+   Adding .float(half||third||twothirds)-separator so we can have some separators happening */
+.floathalf-separator, 
+.floatthird-separator, 
+.floattwothirds-separator { width: 45%;
+    margin-right: 2%;
+    padding-right: 2%;
+    background: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/dots-lightgrey.gif') repeat-y 100% 0; }
+    #ie7 .floathalf-separator, 
+    #ie6down .floathalf-separator { width: 44%; }
+
+    #ie7 .floathalf-separator, 
+    #ie6down .floathalf-separator, 
+    #ie7 .floatthird-separator, 
+    #ie6down .floatthird-separator, 
+    #ie7 .floattwothirds-separator, 
+    #ie6down .floattwothirds-separator { padding-right: 1.5em; /* 18/12 */ }
+
+.floatthird-separator { width: 29%; }
+
+.floattwothirds-separator { width: 62%; }
+/* end edit 2011.09.06 */
+
+/* edit 2010.02.12
+   Guan Ming Teo
+
+   Adding the contact directory loader styling */
+#bodycontainer #pagecontent .cdl-profile { margin-bottom: 1.25em; /* 15/12 */ }
+
+#bodycontainer #pagecontent .cdl-profile h3 { margin: 1.2211em 0 0.6105em;
+    font-size: 1.583333em; /* 19/12 */
+    color: #0864a5; }
+
+#bodycontainer #pagecontent .cdl-profile .cdl-profile-position { font-weight: bold; }
+
+#bodycontainer #pagecontent .cdl-profile dl dt { margin-top: 1.12em; /* 16.8/15 */
+    margin-bottom: 0.56em; /* 8.4/15 */
+    font-weight: bold;
+    font-size: 1.25em; /* 15/12 */
+    color: #00497b; }
+
+#bodycontainer #pagecontent .cdl-profile dl dd { margin-top: 0.333333em; /* 4/12 */
+    margin-bottom: 0.333333em; /* 4/12 */
+    margin-left: 0; }
+
+#bodycontainer #pagecontent .cdl-profile dl dd dl.list-columned { margin-bottom: 0; }
+#bodycontainer #pagecontent .cdl-profile dl dd dl.list-columned dt { margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1em; /* 12/12 */
+    color: #464646; }
+#bodycontainer #pagecontent .cdl-profile dl dd dl.list-columned dd { margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 12.5em; /* 150/12 */ }
+    #ie6down #pagecontent .cdl-profile dl dd dl.list-columned dd { margin-left: 0; }
+
+#bodycontainer #pagecontent .cdl-profile dl dd.list { display: list-item;
+    margin: 0.333333em 0 0.333333em 15px;
+    list-style-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default.gif'); }
+    #ieAny #pagecontent .cdl-profile dl dd.list { margin-left: 17px;
+        list-style-image: url('/web/20161117213837im_/http://static.weboffice.uwa.edu.au/visualid/graphics/bullet-default-ie.gif'); }
+
+#bodycontainer #pagecontent .cdl-profile .separator { clear: right;
+    margin-top: 23px; }
+/* end edit 2010.02.12 */
+
+/**** Simple edit styles ****/
+#uwo #bodycontainer #pagecontent table.bodytext tr td { padding: 0 }
+div[contentEditable="true"] { overflow: scroll; }
+
+
+
+.emergencybox {
+    padding: 10px !important;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+}
+
+.contact-us-map {
+    background: white;
+    width: 308px;
+    height: 308px;
+    margin: 0 0 2em 1.8em;
+}
+
+/* accessible hiding of elements */
+#bodycontainer #pagecontainer .accessible { position: absolute;
+    left: -10000px;
+    top: -10000px;
+    text-decoration: none; }
+
+
+.navsubscribe {
+    margin-top: 20px;
+}
+.navsubscribe .icon {
+    float: left;
+}
+.navsubscribe p {
+    font-weight: bold;
+}
+#bodycontainer #pagecontainer .navsubscribe img {
+    margin-right: 0.5em;
+}
+#pagecontainer div.rightcol .navsubscribe p {
+    font-size: 1.0909em;
+}
+
+
+/**** Appendix A: Key for CSS hacks and workarounds
+ *
+ * A-DMB    IE6 double margin bug
+ *          http://www.positioniseverything.net/explorer/doubled-margin.html
+ *
+ * A-JM     Part of a Jello Mold
+ *          http://www.positioniseverything.net/articles/jello.html
+ */
+
+/**** Appendix B: Key for subclassing the design
+ *
+ * Hints at which attributes should be overridden by which types of customisation
+ *
+ * B-ST     Site Themes (global overrides for a school, faculty, etc.)
+ *
+ */
+
+/*
+     FILE ARCHIVED ON 21:38:37 Nov 17, 2016 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:34:55 Aug 11, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  exclusion.robots: 0.192
+  load_resource: 181.072
+  RedisCDXSource: 12.265
+  PetaboxLoader3.datanode: 82.09 (5)
+  LoadShardBlock: 54.445 (3)
+  esindex: 0.009
+  exclusion.robots.policy: 0.178
+  CDXLines.iter: 19.389 (3)
+  captures_list: 99.881
+  PetaboxLoader3.resolve: 91.143 (2)
+*/

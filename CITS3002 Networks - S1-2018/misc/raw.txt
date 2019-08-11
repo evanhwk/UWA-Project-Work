@@ -1,0 +1,4 @@
+admin:password
+user1:asdf1234
+user2:p@55w0rd
+user3:superman12

@@ -1,0 +1,610 @@
+/* uwaCore defines a namespace for The University of Western Australia */
+
+(function(){
+
+var readyBound          = false,
+    domIsReady          = false,
+    readyQueue          = [],
+    scriptQueue         = [],
+    loadedScripts       = [],
+    scriptQueueQueued   = false,    // (i.e. when jQuery is present)
+    scriptCallback      = null,
+
+    uwaCore = window.uwaCore = {
+
+        SRC_JQUERY:     window.location.protocol == 'https:' ? 'http://web.archive.org/web/20161126111533/https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js' : 'http://web.archive.org/web/20161126111533/http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js',
+
+        SRC_COLORBOX:   window.location.protocol == 'https:' ? 'http://web.archive.org/web/20161126111533/https://static.weboffice.uwa.edu.au/visualid/apps/colorbox/1.3.3/jquery.colorbox.js' : 'http://web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/apps/colorbox/1.3.3/jquery.colorbox.js',
+        
+        // Extends the Google Maps API so we can draw custom information boxes on a map.
+        //SRC_INFOBOX: 'http://web.archive.org/web/20161126111533/http://templates.weboffice.uwa.edu.au/gmaps-infobox.js',
+        SRC_INFOBOX:    window.location.protocol == 'https:' ? 'http://web.archive.org/web/20161126111533/https://static.weboffice.uwa.edu.au/visualid/scripts/gmaps/gmaps-infobox.js' : 'http://web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/scripts/gmaps/gmaps-infobox.js',
+
+        //SRC_COLORBOX:   window.location.protocol == 'https:' ? 'http://web.archive.org/web/20161126111533/https://static.weboffice.uwa.edu.au/visualid/apps/colorbox/1.2.6/jquery.colorbox.js' : 'http://web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/apps/colorbox/1.2.6/jquery.colorbox.js',
+        //SRC_JQUERY:     'http://web.archive.org/web/20161126111533/https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js',
+        //SRC_COLORBOX:   'http://web.archive.org/web/20161126111533/https://static.weboffice.uwa.edu.au/visualid/apps/colorbox/1.2.6/jquery.colorbox.js',
+        //SRC_COLORBOX_CSS:   'http://web.archive.org/web/20161126111533/http://130.95.225.200/~zeno/colorbox/example1/colorbox.css',
+
+        // Equivalent to jQuery's ready function, this will call aCallable
+        // When the DOM is loaded - usually a while before body.onload.
+        ready: function(aCallable) {
+
+            // Use jQuery's ready processing if jQuery is loaded 
+            if ( typeof window.jQuery != 'undefined' ) $(document).ready(aCallable);
+            else {
+
+                // Attach ready listeners if they haven't been attached
+                bindReady();
+
+                // If the dom's already loaded, just call our argument
+                if ( domIsReady ) aCallable.call(document, uwaCore);
+
+                // Otherwise, add the callable to the readyQueue
+                else readyQueue.push(aCallable);
+
+                return this;
+            }
+            
+        }, // end ready
+
+        // Loads a javascript file after the readyQueue's been processed
+        // and calls aCallback function if it's provided
+        jsLazyLoad: function(urls, aCallback) {
+
+            var head = document.getElementsByTagName("head")[0], i, script;
+
+            // Cast urls to an Array
+            urls = urls.constructor === Array ? urls : [urls];
+
+            // Create a request object for each URL. If multiple URLs are specified,
+            // the callback will only be executed after the last URL is loaded.
+            for ( var i = 0; i < urls.length; ++i) {
+                scriptQueue.push({
+                    'url'     : urls[i],
+                    'callback': i === urls.length - 1 ? aCallback : null
+                    });
+            }
+
+            if ( domIsReady ) {
+                processScriptQueue();
+            }
+            else if ( typeof window.jQuery != 'undefined' && !scriptQueueQueued ) {
+                scriptQueueQueued = true;
+                $(document).ready(processScriptQueue);
+            }
+
+        }, // end jsLazyLoad
+
+        withJQuery: function(aCallable) {
+
+            if ( typeof window.jQuery != 'undefined' ) aCallable.call(document, window.jQuery);
+            else uwaCore.jsLazyLoad(this.SRC_JQUERY, aCallable);
+        }
+
+    };
+
+    // Called when the DOM is ready. Calls anything in the readyQueue
+    // array and queues the first lazily loaded script
+    function processReadyQueue() {
+
+        // This function must only be run the first time a "DOM is ready" type event is called
+        if ( !domIsReady ) domIsReady = true;
+        else return true;
+
+        // Process ready queue
+        if ( readyQueue.length > 0 ) {
+
+            // Call everything in the readyQueue
+            for ( var fn = readyQueue[0], i = 0;
+                  i < readyQueue.length;
+                  fn = readyQueue[++i] ) fn.call(this)
+            readyQueue = null;
+        }
+
+        // Process lazy script queue
+        if ( scriptQueue.length > 0 ) processScriptQueue();
+
+    } // end processReadyQueue()
+
+    // If there's anything in the script queue, load it and set up the callback
+    function processScriptQueue() {
+
+        if ( !scriptQueue.length ) return;
+
+        var nextJS = scriptQueue.shift();
+
+        // Just run the callback and move on if this script's already loaded
+        for ( var i=0; i < loadedScripts.length; i++ ) {
+            if ( loadedScripts[i] == nextJS.url ) {
+                if ( nextJS.callback ) nextJS.callback.call(this);
+                processScriptQueue();
+                return;
+            }
+        }
+
+        // Script isn't already loaded - so load it
+        var head = document.getElementsByTagName("head")[0];
+        var script = document.createElement('script');
+        script.type = 'text/JavaScript';
+        script.src = nextJS.url;
+
+        var done = false;
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+
+            if ( !done && ( !this.readyState ||
+                 this.readyState == "loaded" || this.readyState == "complete") ) {
+
+                done = true;
+                if ( nextJS.callback ) nextJS.callback.call(this);
+
+                // Add to the list of 'already loaded' scripts
+                loadedScripts.push(nextJS.url);
+
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+                head.removeChild( script );
+
+                processScriptQueue();
+            }
+        };
+        head.appendChild(script);
+
+    } // end processScriptQueue()
+
+    // Sets the readyQueue up to get processed when the DOM is loaded
+    function bindReady() {
+
+        // Only bind ready functions once
+        if ( !readyBound ) readyBound = true;
+        else return;
+
+        // Mozilla, Opera and webkit nightlies currently support this event
+        if ( document.addEventListener ) {
+            // Use the handy event callback
+            document.addEventListener("DOMContentLoaded", function(){
+                document.removeEventListener("DOMContentLoaded", arguments.callee, false);
+                processReadyQueue();
+            }, false);
+        }
+
+        // If IE event model is used
+        else if ( document.attachEvent ) {
+
+            // ensure firing before onload, maybe late but safe also for iframes
+            document.attachEvent("onreadystatechange", function() {
+                if ( document.readyState === "complete" ) {
+                    document.detachEvent("onreadystatechange", arguments.callee);
+                    processReadyQueue();
+                }
+            });
+
+            // If IE and not an iframe continually check to see if the document is ready
+            if ( document.documentElement.doScroll && window == window.top ) (function(){
+                if ( uwaCore.isReady ) return;
+
+                try {
+                    // If IE is used, use the trick by Diego Perini
+                    // http://javascript.nwbox.com/IEContentLoaded/
+                    document.documentElement.doScroll("left");
+                } catch( error ) {
+                    setTimeout( arguments.callee, 0 );
+                    return;
+                }
+
+                // and execute any waiting functions
+                processReadyQueue();
+            })();
+        }
+
+        // A fallback to window.onload, that will always work
+        if ( typeof window.onload != 'function' )
+            window.onload = processReadyQueue;
+
+        else {
+            var oldFn = window.onload;
+            window.onload = function() {
+                if (oldFn) {
+                    try {
+                        oldFn();
+                    }
+                    catch (e) {
+                        return;
+                    }
+                }
+                processReadyQueue();
+            }
+        }
+
+    } // end bindReady()
+    
+ 
+})(); /* end uwaCore's private space */
+
+
+
+/****
+ * Functionality used by elements of the UWA Visual Identity gets attached here
+ *
+ * QuickLinks - and the code to hide & reveal them */
+uwaCore.ready(function() {
+
+    var qlButton = document.getElementById('ql_button');
+    if ( qlButton )
+        qlButton.onclick = qlButton.ondblclick = function () {
+
+            var qlList = document.getElementById('ql_list');
+            if (qlList.style.display != 'inline') qlList.style.display = 'inline';
+            else qlList.style.display = 'none';
+        };
+
+});
+
+/* UWA Search bar - clear defaults on focus, process input on submit */
+uwaCore.ready(function() {
+
+    var searchBox = document.getElementById('words');   // Terrible id name is vestigial
+    if ( searchBox ) {
+
+        searchBox.onfocus = function() {
+            if (searchBox.defaultValue == searchBox.value) searchBox.value='';
+        };
+    }
+
+    // Stops submission of a search form if empty or at its default value
+    // Also fires off some useful analytics events!
+    var searchForm = document.getElementById('uwasearch');
+    if ( searchForm ) {
+
+        searchForm.onsubmit = function() {
+
+            var searchWords = document.getElementById('words');
+            var uwaSearch = document.uwasearch;
+            if ( uwaSearch ) {
+                var keyword = uwaSearch.words.value;
+                var type = uwaSearch.query.value;
+            }
+
+            if ( (/^\s*$/.test(searchWords.value)) || (/^\s*Site Search\s*$/.test(searchWords.value)) ) {
+                alert('Please enter search keywords.');
+                return false;
+            }
+
+            if ( typeof dcsMultiTrack == 'function' )
+                dcsMultiTrack('DCSext.uwa_se', type, 'DCSext.uwa_skp', keyword);
+
+            if ( typeof pageTracker == 'object' && typeof pageTracker._trackPageview == 'function' ) {
+                pageTracker._trackPageview('/Search/search.html?search_term=' + keyword + '&category=' + type);
+            }
+        };
+    }
+});
+
+
+
+/* Attach colorbox (our lightboxing solution) to anything that needs it */
+uwaCore.ready(function() {
+
+    // Sanity check
+    var pageContainer = document.getElementById('pagecontainer');
+    if ( !pageContainer ) return;
+
+    // If any .uwa-lightboxes classes exist
+    var lightboxContainers;
+    if ( (lightboxContainers = getElementsByClassName('uwa-lightboxes', null, pageContainer)) && lightboxContainers.length ) {
+
+        uwaCore.withJQuery(function() {
+
+            //$('<link rel="stylesheet" type="text/css" href="'+SRC_COLORBOX_CSS+'" >').appendTo("head");
+
+            uwaCore.jsLazyLoad(uwaCore.SRC_COLORBOX, function() {
+
+                $.fn.colorbox.init();
+                //$("a[rel='river']").colorbox({transition:"none", opacity:0.8, close:"close!!!"});
+                $(".lightboxes a").colorbox({transition:"none", opacity:0.8});
+                $(".iframeboxes a").colorbox({iframe:true, width:650, height:550, transition:"none", opacity:0.8});
+            });
+
+        });
+
+    }
+
+});
+
+/* Attach the Google Maps API if the <body> has class 'has-google-maps' */
+uwaCore.ready(function() {
+    
+    var bodyClasses = document.getElementsByTagName('body')[0].className;
+    if (bodyClasses != null && bodyClasses.indexOf('has-google-maps') != -1)
+        uwaCore.withJQuery(function() {
+            // Load Maps API if we don't have it, then call paintMaps().
+            // We can't use jsLazyLoad (afaict) because the callback must be passed in the API script url.
+
+            if (typeof(google) == 'undefined' || typeof(google.maps) == 'undefined') {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "http://web.archive.org/web/20161126111533/http://maps.googleapis.com/maps/api/js?sensor=false&callback=uwaGmaps.paintMaps";
+                document.body.appendChild(script);
+            }
+
+            else
+                uwaGmaps.paintMaps();
+
+        });
+
+});
+
+/* Utility functions for Google Maps functionality can have their own namespace */
+uwaGmaps = window.uwaGmaps = {
+
+    paintMaps:
+    function() {
+        // find each map div, and tell it to...
+        $("div.contact-us-map").each(function() {
+
+            // wrap itself in divs, which we expect to be styled
+            $(this).wrap('<div class="contact-us-map-wrapper" />')
+            .wrap('<div class="contact-us-map-border" />');
+            
+            // if we specified a campusmapid, put a link to the campus map inside the wrapper
+            var title = $(this).children(".title").html();
+            var campusmapid = $(this).children(".campusmapid").html()
+            if (campusmapid) {
+                campusMapLink = '<p class="linklist"><a href="http://web.archive.org/web/20161126111533/http://www.uwa.edu.au/campus_map?id=' + campusmapid + '">Locate ' + title + ' on the campus map</a></p>';
+                $(this).parent().parent().append(campusMapLink);
+            }
+            
+            // style the divs
+            var float = $(this).children(".float").html();
+            var margin = $(this).children(".margin").html();
+            if (!float) float = 'right';
+            if (!margin) margin  = '0 0 2em 1.8em';
+            $(this).css({ // .contact-us-map-wrapper .contact-us-map-border .contact-us-map
+                height: '300px',
+                width: '300px',
+                float: 'none',
+                padding: '0',
+                margin: '0'
+            });
+            $(this).parent().css({ // .contact-us-map-wrapper .contact-us-map-border
+                border: '1px #C4C4C4 solid',
+                padding: '4px',
+                'margin-bottom': '4px'
+            });
+            $(this).parent().parent().css({ // .contact-us-map-wrapper
+                float: float,
+                margin: margin,
+                width: '312px'
+            });
+            
+            // call paintGoogleMap on itself
+            var zoom = parseInt($(this).children(".zoom").html())
+            if (!zoom) zoom = 17;
+            uwaGmaps.paintGoogleMap(
+                $(this).attr('id'),
+                title,
+                $(this).children(".latitude").html(),
+                $(this).children(".longitude").html(),
+                zoom,
+                $(this).children(".label").html()
+            );
+            
+        });
+    },
+
+    paintGoogleMap:
+    function (id, title, lat, lon, zoom, label) {
+        // Simple function to paint a map in div#id, centred at a marker on (lat, lon)
+        var latlng = new google.maps.LatLng(lat, lon);
+        var options = { zoom: zoom, center: latlng, mapTypeId: google.maps.MapTypeId.HYBRID, scrollwheel: false, streetViewControl: false };
+        // create the map
+        var map = new google.maps.Map(document.getElementById(id), options);
+        // create the marker
+        var marker = new google.maps.Marker( {position: latlng, title: title, map: map} );
+        if (label) {
+            // Only load gmaps-infobox.js if we're actually going to use it.
+            uwaCore.jsLazyLoad(uwaCore.SRC_INFOBOX, function(){uwaGmaps.drawLabel(label, map, marker)});
+        }
+    },
+
+    drawLabel:
+    function (label, map, marker) {
+        var ib = new InfoBox( {
+            content: '<div style="text-align: center;">'+label+'</div>',
+            pixelOffset: new google.maps.Size(-40, 10),
+            closeBoxURL: '',
+            boxStyle: {
+                opacity: '0.8',
+                width: '70px',
+                background: '#fff',
+                padding: '4px',
+                border: '1px #c4c4c4 solid',
+                font: 'bold 11px arial,sans-serif',
+                text: 'center'
+            }
+        } );
+        ib.open(map, marker);
+    }
+
+}
+
+/* Add emergency hailstorm information stamp to /staff pages only */
+/*uwaCore.ready(function() {
+
+    var pathname = window.location.pathname;
+    var staffEndRe = new RegExp('/staff$');
+    var studentsEndRe = new RegExp('/students$');
+    if ( staffEndRe.test(pathname) || studentsEndRe.test(pathname) ) {
+        var pContent = document.getElementById('pagecontent');
+        var rightcol = getElementsByClassName('rightcol', null, pContent);
+        if ( rightcol ) {
+            rightcol = rightcol[0];
+
+            var anchor = document.createElement('a');
+            anchor.setAttribute('href', 'http://web.archive.org/web/20161126111533/http://www.news.uwa.edu.au/storm');
+
+            var stamp = document.createElement('img');
+            stamp.setAttribute('src', 'http://web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/graphics/stamps/stamp-right-hailstorm-165.jpg');
+
+            anchor.appendChild(stamp);
+            rightcol.insertBefore(anchor, rightcol.firstChild);
+        }
+    }
+});*/
+
+
+
+/****
+ * Utility functions
+ */
+
+/*  getElementsByClassName()
+    Developed by Robert Nyman, http://www.robertnyman.com
+    Code/licensing: http://code.google.com/p/getelementsbyclassname/
+*/
+var getElementsByClassName = function (className, tag, elm) {
+    if (document.getElementsByClassName) {
+        getElementsByClassName = function (className, tag, elm) {
+            elm = elm || document;
+            var elements = elm.getElementsByClassName(className),
+                nodeName = (tag)? new RegExp("\\b" + tag + "\\b", "i") : null,
+                returnElements = [],
+                current;
+            for(var i=0, il=elements.length; i<il; i+=1){
+                current = elements[i];
+                if(!nodeName || nodeName.test(current.nodeName)) {
+                    returnElements.push(current);
+                }
+            }
+            return returnElements;
+        };
+    }
+    else if (document.evaluate) {
+        getElementsByClassName = function (className, tag, elm) {
+            tag = tag || "*";
+            elm = elm || document;
+            var classes = className.split(" "),
+                classesToCheck = "",
+                xhtmlNamespace = "http://www.w3.org/1999/xhtml",
+                namespaceResolver = (document.documentElement.namespaceURI === xhtmlNamespace)? xhtmlNamespace : null,
+                returnElements = [],
+                elements,
+                node;
+            for(var j=0, jl=classes.length; j<jl; j+=1){
+                classesToCheck += "[contains(concat(' ', @class, ' '), ' " + classes[j] + " ')]";
+            }
+            try {
+                elements = document.evaluate(".//" + tag + classesToCheck, elm, namespaceResolver, 0, null);
+            }
+            catch (e) {
+                elements = document.evaluate(".//" + tag + classesToCheck, elm, null, 0, null);
+            }
+            while ((node = elements.iterateNext())) {
+                returnElements.push(node);
+            }
+            return returnElements;
+        };
+    }
+    else {
+        getElementsByClassName = function (className, tag, elm) {
+            tag = tag || "*";
+            elm = elm || document;
+            var classes = className.split(" "),
+                classesToCheck = [],
+                elements = (tag === "*" && elm.all)? elm.all : elm.getElementsByTagName(tag),
+                current,
+                returnElements = [],
+                match;
+            for(var k=0, kl=classes.length; k<kl; k+=1){
+                classesToCheck.push(new RegExp("(^|\\s)" + classes[k] + "(\\s|$)"));
+            }
+            for(var l=0, ll=elements.length; l<ll; l+=1){
+                current = elements[l];
+                match = false;
+                for(var m=0, ml=classesToCheck.length; m<ml; m+=1){
+                    match = classesToCheck[m].test(current.className);
+                    if (!match) {
+                        break;
+                    }
+                }
+                if (match) {
+                    returnElements.push(current);
+                }
+            }
+            return returnElements;
+        };
+    }
+    return getElementsByClassName(className, tag, elm);
+};
+
+
+
+
+/****
+ * Deprecated; will be removed when we're sure there are no dependencies left in the wild
+ *
+ * Add a function to an event handler e.g. addEventFn('window.onload', myOnloadFn); */
+function addEventFn(event, fn) {
+    var oldfn;
+    eval('oldfn='+event);
+    if (typeof oldfn != 'function') eval(event+'=fn');
+    else eval(event+'=function() { if (oldfn) oldfn(); fn(); }');
+}
+
+
+/* a temporary solution to remove the centenary logo - Timothy Phillips */
+uwaCore.ready(function() {
+    var crest = document.getElementById('uwa_crest_centenary');
+    var year = new Date().getFullYear();
+    if (year != 2013 && crest != null) crest.style.display='none';
+});
+
+
+/* temporary solution to update the brand header */
+uwaCore.ready(function() {
+
+    var blacklist = "onesearch.library.uwa.edu.au;teams.uwa.edu.au;icrar.org;www.icrar.org;costcalculator.research.uwa.edu.au;www.myprogram.openday.uwa.edu.au;test-remote.uniwa.uwa.edu.au"
+    if (blacklist.indexOf(window.location.host) < 0 || window.location.host == "uwa.edu.au") {
+        var footer = document.getElementById('footercontainer');
+        var title = document.getElementById('headertitle');
+        if (!title) title = document.getElementById('pagetitle');
+        
+        var logo = document.getElementById('uwa_crest');
+
+        //remove old slogan if present
+        if (title) {
+            var titleText = title.innerText || title.textContent;
+            titleText = titleText.replace(/^\s+|\s+$/g,''); //ie8 doesn't support trim.
+            var titleBlacklist = "achieve international excellence;achieving international excellence;%%masthead-title-text%%";
+            if (titleBlacklist.indexOf(titleText.toLowerCase()) > -1) title.innerHTML = "";
+        }
+        
+        //insert stylesheet
+        if (footer) footer.innerHTML = footer.innerHTML + '<link rel="stylesheet" type="text/css" href="//web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/styles/id-brand-refresh-hack.css" />';
+
+        //swap out logo image
+        logo.src = "//web.archive.org/web/20161126111533/http://static.weboffice.uwa.edu.au/visualid/graphics/uwacrest.png"
+    }
+});
+
+/*
+     FILE ARCHIVED ON 11:15:33 Nov 26, 2016 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:34:56 Aug 11, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 83.25
+  LoadShardBlock: 34.655 (3)
+  RedisCDXSource: 1.322
+  PetaboxLoader3.resolve: 252.618
+  esindex: 0.008
+  exclusion.robots.policy: 0.163
+  CDXLines.iter: 36.481 (3)
+  PetaboxLoader3.datanode: 60.188 (4)
+  load_resource: 302.297
+  exclusion.robots: 0.174
+*/

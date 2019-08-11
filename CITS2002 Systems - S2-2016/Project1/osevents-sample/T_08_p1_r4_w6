@@ -1,0 +1,15 @@
+timequantum	16000
+diskrpm		4200
+disksectors	72
+536700	0	admit
+3100	0	read	55
+4000	0	write	42
+5600	0	write	68
+8100	0	write	50
+11300	0	read	55
+12400	0	read	12
+13100	0	write	1
+14300	0	write	8
+15700	0	read	0
+20400	0	write	30
+21500	0	exit

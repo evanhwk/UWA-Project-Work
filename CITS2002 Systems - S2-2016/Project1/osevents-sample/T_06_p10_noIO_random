@@ -1,0 +1,23 @@
+timequantum	2000
+diskrpm		4200
+disksectors	24
+555700	0	admit
+42400	0	exit
+760000	1	admit
+764900	2	admit
+36100	1	exit
+800300	3	admit
+52100	2	exit
+845600	4	admit
+914000	5	admit
+915000	6	admit
+185700	3	exit
+1000600	7	admit
+323400	4	exit
+294200	5	exit
+1239400	8	admit
+1273800	9	admit
+216300	8	exit
+851700	6	exit
+783400	7	exit
+541500	9	exit

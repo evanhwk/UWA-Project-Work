@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=urlFrom\ urlTo
+comment0.target=void\ addEdge(java.lang.String,\ java.lang.String)
+comment0.text=\r\n\ Adds\ an\ edge\ to\ the\ Wikipedia\ page\ graph.\ If\ the\ pages\ do\ not\r\n\ already\ exist\ in\ the\ graph,\ they\ will\ be\ added\ to\ the\ graph.\r\n\ \r\n\ @param\ urlFrom\ the\ URL\ which\ has\ a\ link\ to\ urlTo.\r\n\ @param\ urlTo\ the\ URL\ which\ urlFrom\ has\ a\ link\ to.\r\n
+comment1.params=urlFrom\ urlTo
+comment1.target=int\ getShortestPath(java.lang.String,\ java.lang.String)
+comment1.text=\r\n\ Finds\ the\ shorest\ path\ in\ number\ of\ links\ between\ two\ pages.\r\n\ If\ there\ is\ no\ path,\ returns\ -1.\r\n\ \r\n\ @param\ urlFrom\ the\ URL\ where\ the\ path\ should\ start.\r\n\ @param\ urlTo\ the\ URL\ where\ the\ path\ should\ end.\r\n\ @return\ the\ legnth\ of\ the\ shorest\ path\ in\ number\ of\ links\ followed.\r\n
+comment2.params=
+comment2.target=java.lang.String[]\ getCenters()
+comment2.text=\r\n\ Finds\ all\ the\ centers\ of\ the\ page\ graph.\ The\ order\ of\ pages\r\n\ in\ the\ output\ does\ not\ matter.\ Any\ order\ is\ correct\ as\ long\ as\r\n\ all\ the\ centers\ are\ in\ the\ array,\ and\ no\ pages\ that\ aren't\ centers\r\n\ are\ in\ the\ array.\r\n\ \r\n\ @return\ an\ array\ containing\ all\ the\ URLs\ that\ correspond\ to\ pages\ that\ are\ centers.\r\n
+comment3.params=
+comment3.target=java.lang.String[][]\ getStronglyConnectedComponents()
+comment3.text=\r\n\ Finds\ all\ the\ strongly\ connected\ components\ of\ the\ page\ graph.\r\n\ Every\ strongly\ connected\ component\ can\ be\ represented\ as\ an\ array\ \r\n\ containing\ the\ page\ URLs\ in\ the\ component.\ The\ return\ value\ is\ thus\ an\ array\r\n\ of\ strongly\ connected\ components.\ The\ order\ of\ elements\ in\ these\ arrays\r\n\ does\ not\ matter.\ Any\ output\ that\ contains\ all\ the\ strongly\ connected\r\n\ components\ is\ considered\ correct.\r\n\ \r\n\ @return\ an\ array\ containing\ every\ strongly\ connected\ component.\r\n
+comment4.params=
+comment4.target=java.lang.String[]\ getHamiltonianPath()
+comment4.text=\r\n\ Finds\ a\ Hamiltonian\ path\ in\ the\ page\ graph.\ There\ may\ be\ many\r\n\ possible\ Hamiltonian\ paths.\ Any\ of\ these\ paths\ is\ a\ correct\ output.\r\n\ This\ method\ should\ never\ be\ called\ on\ a\ graph\ with\ more\ than\ 20\r\n\ vertices.\ If\ there\ is\ no\ Hamiltonian\ path,\ this\ method\ will\r\n\ return\ an\ empty\ array.\ The\ output\ array\ should\ contain\ the\ URLs\ of\ pages\r\n\ in\ a\ Hamiltonian\ path.\ The\ order\ matters,\ as\ the\ elements\ of\ the\r\n\ array\ represent\ this\ path\ in\ sequence.\ So\ the\ element\ [0]\ is\ the\ start\r\n\ of\ the\ path,\ and\ [1]\ is\ the\ next\ page,\ and\ so\ on.\r\n\ \r\n\ @return\ a\ Hamiltonian\ path\ of\ the\ page\ graph.\r\n
+numComments=5

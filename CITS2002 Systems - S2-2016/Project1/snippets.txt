@@ -1,0 +1,38 @@
+void printdiskQueue()
+{
+	int len = numIORequests;
+	printf("CURR SECTOR: %i\n", currSector);
+	printf("NUMBER OF ITEMS: %i\n", len);
+	printf("QUEUE CURRENT STATUS = [");
+	for (int i = 0; i < len; i++) {
+		printf("%i ", Disk_0Queue[i].diskSector);
+	}
+	printf("]\n");
+	printf("QUEUE TIME TO SEEK = [");
+	for (int i = 0; i < len; i++) {
+		printf("%i ", calcSectorSeek( Disk_0Queue[i].diskSector, true) );
+	}
+	printf("]\n");
+	
+	static int result[4]; 
+	result[0] = Disk_0Queue[0].processID;
+	result[1] = Disk_0Queue[0].IOreqID;
+	result[2] = Disk_0Queue[1].processID;
+	result[3] = Disk_0Queue[1].IOreqID;
+	printf("[ %i/%i, %i/%i ] \n", result[0], result[1], result[2], result[3]);
+	
+}
+
+
+void printReadyQueue(processQueue * Q)
+{
+	
+	int len = Q->numProcess_inQ;
+	printf("NUMBER OF ITEMS: %i\n", len);
+	printf("READY QUEUE CURRENT STATUS = [");
+	for (int i = 0; i < len; i++) {
+		printf("%i ", Q->process[i]);
+	}
+	printf("]\n");
+}
+printReadyQueue(readyQ_ptr);

@@ -1,0 +1,272 @@
+/*
+   CITS2002 Project 2 2016
+   Name(s):		Evan Huang
+   Student number(s):	20916873
+ */
+#include "dirVect.h"
+#include "exec.h"
+
+static bool fl_SHOW_HIDDEN, fl_COUNT_ONLY, fl_LONG_LIST, fl_REVERSE_SORT, fl_SORT_SIZE, fl_SORT_TIME, fl_UNLINK = false; // see parseFlags
+static DIR_V DIRECTORY_VECTOR, *D_V = &DIRECTORY_VECTOR; 							// Dynamic Vector which holds references to file names and data 				*/
+static int ERROR_SAV = 0;															// For memory of non-fatal errors
+/* 	Initialises File Scope Variables for various options (to be used with exec functions)
+	Uses boolean array passed from the main function
+*/
+
+void printLongList();
+
+void parse_flags(bool fl[])
+{
+	fl_SHOW_HIDDEN	= fl[0];
+	fl_COUNT_ONLY	= fl[1];
+	fl_LONG_LIST	= fl[2];
+	fl_REVERSE_SORT	= fl[3];
+	fl_SORT_SIZE	= fl[4];
+	fl_SORT_TIME	= fl[5];
+	fl_UNLINK		= fl[6];
+	
+	#if (EVAL)
+		printf("_______________________________________________________________________________________________________________\n\n");
+		printf("+———————————+\n");
+		printf("|   FLAGS   |\n");
+		printf("+———————+———+\n");
+		printf("| Hiddn\t| %d |\n", fl_SHOW_HIDDEN); 
+		printf("| Unlnk\t| %d |\n", fl_UNLINK);
+		printf("| Lcnt\t| %d |\n", fl_COUNT_ONLY); 
+		printf("| Llist\t| %d |\n", fl_LONG_LIST); 
+		printf("| Srev\t| %d |\n", fl_REVERSE_SORT); 
+		printf("| Stime\t| %d |\n", fl_SORT_TIME);
+		printf("| Ssize\t| %d |\n", fl_SORT_SIZE); 
+		printf("+———————+———+\n");
+	#endif
+}
+
+/*  Get the full path of the current file 
+	Return this as a *char
+*/
+static char * getFullPath(char dirPath[], char fileName[])
+{
+	char *temp = malloc( sizeof (char) * (strlen(dirPath)+1 + strlen(fileName)+1));		// This memory has to be freed at the callers discretion 				
+	char *fullpath;
+	CHECK_ALLOC(temp, "exec")
+	fullpath = temp;
+	
+	if ( strcmp(dirPath, "./") == 0) {													// If command line input is . do not show directory path				
+		fullpath = strcpy (fullpath, "");
+	}
+	else {
+		fullpath = strcpy (fullpath, dirPath);
+	}
+	fullpath = strcat(fullpath, fileName);
+	
+	return fullpath;
+}
+
+/*  Parses the directory given and generates DIR_V DIRECTORY_VECTOR 
+	Can be called as a recursive function (for child directories)
+	End result will be an unsorted DIR_V 
+*/
+void dir_to_vector(char dirPath[], STAT_EXPRESSION statExpress, int depth)
+{
+	/* init */
+	if (!D_V->init && !fl_UNLINK) {								/* !!!  IF NOT UNLINKING, init DIRECTORY_VECTOR (unless already init) !!! */
+		DIRECTORY_VECTOR = init_dir_vector();
+	}
+	
+											/* 			RECURSION BEGINS   		*/																			
+	
+	dirPath = strcat(dirPath, "/");								// Pathname of directory to be opened
+	char *fullpath;												// FULL pathname of a file - dirPath + file name 												
+	
+	/* EXEC */
+	DIR *dir = opendir(dirPath);								// OPEN DIR
+	struct dirent *dp;
+	
+	if (dir == NULL) { 											// If dir is NULL return error with perror - i.e. directory not found 							
+		P_ERROR_EXIT("exec")	
+	}					
+	else {
+		while ( (dp = readdir(dir)) != NULL ) 					// WHILE dirent pointer dp has not reached the end of dir 										
+		{					
+			struct stat stat_Buff;											// Declare stat type + pointer to collect stat data about current file 		
+			struct stat *stat_Ptr = &stat_Buff;				
+			fullpath = getFullPath(dirPath, dp->d_name);																
+			
+			if (stat(fullpath, stat_Ptr) != 0) { 									/* CALL stat, return ERROR if returned */							
+				P_ERROR_EXIT("exec")												
+			}
+			else if (S_ISDIR( stat_Ptr->st_mode ) ) 								/* IF REFERENCING DIRECTORY */												
+			{									
+				if ( strcmp(dp->d_name,".") && strcmp(dp->d_name,"..") )				// (Ignoring . and .. directories) - VERY IMPORTANT					
+				{
+					if ( (fl_SHOW_HIDDEN == true || dp->d_name[0] != '.') )						// Determine if Hidden Folders (Starting with .) are ignored		
+					{
+						if (!fl_UNLINK) 													/* IF NOT UNLINKING */
+						{
+							if (evaluate_stat_expression(statExpress, dp->d_name, stat_Ptr) == true)	{		// If dir name matches stat expression			
+								append_dir_vector(D_V, fullpath, stat_Buff);									// Append validated data to the DIR_V
+							}
+						}
+						if (depth != 0) 																/* If depth is non-zero - CHECK FOR RECURSION */
+						{																					/* Below 0 = Infinite possible recursion */
+							#if (EVAL)
+								printf("<");
+							#endif
+							dir_to_vector(fullpath, statExpress, depth - 1); 								// Call this function recursively, with depth - 1 	
+	
+						}
+										/* 			RECURSION ENDS   		*/																				
+						if (fl_UNLINK)														/* IF  UNLINKING */														
+						{
+							if (rmdir(fullpath)!=0) {										// Attempt to unlink the directory
+								perror(fullpath);
+								ERROR_SAV = errno;											// If error occurs, save it to ERROR_SAV and continue
+							}
+						}
+						free(fullpath);
+					}
+				}
+			}
+			else 																	/* IF REFERENCING A NON-DIRECTORY ITEM (file) */	
+			{		
+				if (fl_SHOW_HIDDEN == true || dp->d_name[0] != '.' )					// Ignore Hidden Files (Starting with .) unless specified otherwise
+				{					
+					if (evaluate_stat_expression(statExpress, dp->d_name, stat_Ptr) == true)		// If file name matches stat expression
+					{					
+						if (!fl_UNLINK) 																/* IF NOT UNLINKING */
+						{
+							append_dir_vector(D_V, fullpath, stat_Buff);									// Append data to the DIR_V, given stat expression
+						} 
+						else if (fl_UNLINK)											 					/* IF UNLINKING */
+						{
+							if (unlink(fullpath)!=0) {														// Attempt to unlink the file */
+								perror(fullpath);
+								ERROR_SAV = errno;															// If error occurs, save it to ERROR_SAV and continue*/
+							}
+						}
+						free(fullpath);
+					}
+				}
+			}
+		}
+		closedir (dir);
+	}
+	#if (EVAL)
+		printf(">");
+	#endif
+}
+/*
+	Function to print long list ( -l )
+	FORMAT:
+	Inode Permissions Link# Owner Group SizeBytes Modification_Time/Date FileName
+*/
+void printLongList()
+{
+	#ifdef __linux__
+		#define INODE_DISPLAY_L 18																				// Defining display limits for long list
+	#endif
+	#ifdef __APPLE__
+		#define INODE_DISPLAY_L 7	
+	#endif
+	#define LINK_DISPLAY_L 2
+	#define SIZE_DISPLAY_L 8
+	#define TIMEDATE_L 21
+	
+	struct group *grp;																						// Define struct group & passwd pointers in order to derive user/group name
+	struct passwd *pwd;
+	char m_timedate[TIMEDATE_L];																				// Define char to use as buffer for strftime()
+	
+	for (int i = 0; i < D_V->curr; i++ ){															// FOR each FILE_INFO in DIR_LIST
+		pwd = getpwuid(D_V->file[i].fStat.st_uid);															// Get user name
+		grp = getgrgid(D_V->file[i].fStat.st_gid);															// Get group name
+		strftime(m_timedate, TIMEDATE_L, "%a %b %d %H:%M:%S", gmtime(&(D_V->file[i].fStat.st_ctime)));		// Get time/date stamp
+																											// Then print
+		#ifdef __linux__
+			printf("%*ju ", INODE_DISPLAY_L, D_V->file[i].fStat.st_ino);											// INODE ID
+		#endif
+		#ifdef __APPLE__
+			printf("%*llu ", INODE_DISPLAY_L, D_V->file[i].fStat.st_ino);											
+		#endif
+		printf( (S_ISDIR(D_V->file[i].fStat.st_mode)) ? "d" : "-");												
+		printf( (D_V->file[i].fStat.st_mode & S_IRUSR) ? "r" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IWUSR) ? "w" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IXUSR) ? "x" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IRGRP) ? "r" : "-");											// Permissions
+		printf( (D_V->file[i].fStat.st_mode & S_IWGRP) ? "w" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IXGRP) ? "x" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IROTH) ? "r" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IWOTH) ? "w" : "-");
+		printf( (D_V->file[i].fStat.st_mode & S_IXOTH) ? "x" : "-");
+		#ifdef __linux__
+			printf("%*ju ", LINK_DISPLAY_L, D_V->file[i].fStat.st_nlink);										// No. of hard links
+		#endif
+		#ifdef __APPLE__
+			printf("%*hu ", LINK_DISPLAY_L, D_V->file[i].fStat.st_nlink);											
+		#endif
+		printf("%s ", pwd->pw_name);																			// Name of Owner
+		printf("%s ",grp->gr_name);																				// Group
+		#ifdef __linux__
+			printf("%*ju ", SIZE_DISPLAY_L, D_V->file[i].fStat.st_size);										// Size (in Bytes)
+		#endif
+		#ifdef __APPLE__
+			printf("%*lld ", SIZE_DISPLAY_L, D_V->file[i].fStat.st_size);
+		#endif
+		printf("%s ", m_timedate);																				// Time/Date Stamp of Last Modification - Day/Week Month Day HH:MM:SS
+		printf("%s\n", D_V->file[i].fName);																		// Filename
+	}
+}
+
+
+/*  Execute Sorting and Printing (dependant on option flags) to the command line
+	Rules in Place: 
+	* -u | No Printing + No Sorting
+	* -c | Only print size of DIRECTORY_VECTOR to command line + No sorting
+	* -t | Sorting by -t takes priority over -s
+	
+	Calls sort_dir_vector with relevant enum type if sorting is required
+	then Prints output
+	RETURNS either 0 or error code if errors occured during unlinking
+*/
+int exec_sort_print()																/* DO NON-SORT CASES FIRST */
+{																						/* UNLINK */
+	if (fl_UNLINK) {																	/* Returns error code (if occured) OR 0 */
+		return ERROR_SAV;
+	}
+	else if (fl_COUNT_ONLY) {
+			printf("%i\n", DIRECTORY_VECTOR.curr);										/* PRINT COUNT */
+	}
+	else
+	{																				/* SORTING THE DIRECTORY VECTOR */
+		if (fl_REVERSE_SORT) {															/* REVERSE SORT... */
+			if (fl_SORT_TIME) {
+				sort_dir_vector(D_V, R_TIME);												/* TIME */
+			}
+			else if (fl_SORT_SIZE) {
+				sort_dir_vector(D_V, R_SIZE);												/* SIZE */
+			}
+			else {	
+				sort_dir_vector(D_V, R_NAME);												/* NAME */
+			}
+		}
+		else {																			/* NORMAL SORT... */
+			if (fl_SORT_TIME) {																/* TIME */
+				sort_dir_vector(D_V, TIME);
+			}
+			else if (fl_SORT_SIZE) {														/* SIZE */
+				sort_dir_vector(D_V, SIZE);
+			}
+			else {																			/* NAME */
+				sort_dir_vector(D_V, NAME);
+			}
+		}																				/* PRINTING */
+		if (fl_LONG_LIST) {																/* LONG LIST */
+			printLongList();
+		}
+		else {																			/* REGULAR */
+			for (int i = 0; i < D_V->curr; i++ ){
+				puts(D_V->file[i].fName);
+			}
+		}
+	}
+	return 0;
+}

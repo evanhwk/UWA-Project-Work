@@ -1,0 +1,5 @@
+timequantum  20000
+diskrpm      5400
+disksectors  64
+0      0      admit
+10000       0      exit

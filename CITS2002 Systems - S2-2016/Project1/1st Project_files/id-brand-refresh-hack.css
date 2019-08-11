@@ -1,0 +1,213 @@
+/* Timothy Phillips 2015-05-14 */
+
+/* Apply new brand header */
+
+/* Rush job because we're still waiting for Marketing discuss the wider brand roll out with us. */
+
+@font-face {
+    font-family:"UWA slab";
+    src: url("//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/fonts/uwa/uwa-slab-regular.eot");
+    src: url("//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/fonts/uwa/uwa-slab-regular.eot#iefix") format("embedded-opentype"), url("//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/fonts/uwa/uwa-slab-regular.otf") format("opentype"), url("//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/fonts/uwa/uwa-slab-regular.woff") format("woff");
+}
+.pagetype-inside #headercontainer,
+#headercontainer {
+    padding-top: 1px;
+    border-top: 0px;
+    height: 192px;
+    background: url(//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/graphics/header-refresh-background.jpg) bottom center repeat-x #27348B;
+    border-bottom: 0px;
+}
+
+#oldcore #headercontainer {
+    padding-top: 1px;
+    border-top: 0px;
+    height: 192px;
+    background: url(//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/graphics/header-refresh-background.jpg) bottom center repeat-x #27348B;
+    border-bottom: 0px;
+}
+#headercontainer #headertitle {
+    margin-top: 75px;
+    padding: 0px;
+    background-image: none !important;
+    font-size: 26px;
+    color: white;
+    text-align: right;
+    height: 32px !important;
+    font-family: "UWA slab" !important;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+    width: 600px !important;
+}
+#headercontainer #headertitle a:link {
+    color: white !important;
+    text-decoration: none;
+}
+#headercontainer #headertitle a:visited {
+    color: white !important;
+} 
+#bodycontainer #headercontainer .primary {
+    margin-top: -1px;
+}
+#bodycontainer #headercontainer .secondary {
+    margin-top: 153px;
+}
+#gencore #bodycontainer #headercontainer {
+    margin-top: -2px;
+}
+#gencore #headercontainer #nav_campaign_button {
+    top: 0px;
+}
+#gencore #bodycontainer #ql_outer {
+    min-height: 19px;
+    top: 0px;
+}
+#gencore div#nav-skip {
+    top: 0px;
+}
+#headercontainer #nav_campaign_button {
+    overflow: hidden;
+    border-radius: 0px 0px 5px 5px;
+}
+#nav-skip {
+    overflow: hidden;
+    border-radius: 0 0 5px 0;
+}
+#ql_outer {
+    border-radius: 0 0 0 5px;
+}
+img#uwa_crest {
+    width: auto !important;
+    height: auto !important;
+    max-width: 211px;
+    max-height: 69px;
+    padding-top: 41px;
+    padding-left: 0px;
+    margin-left: 10px;
+    /*3.05797*/
+}
+
+body.responsive img#uwa_crest,
+body.homepage img#uwa_crest {
+    margin-left: -7px;    
+}
+#gencore #headercontainer #headertitle {
+        padding-bottom: 50px;
+    }
+
+#oldcore #headercontainer .mainheaderouter {
+    border-top: 0px;
+}
+#oldcore #headercontainer {
+    margin-top: -1px;
+}
+#oldcore #headercontainer .pagetitle {
+    /*display: none;*/
+}
+#oldcore .mainheader .logo {
+    padding: 0px;
+}
+#oldcore .mainheaderouter .mainheader {
+    min-height: 155px;
+}
+
+#oldcore .mainheaderouter .mainheader {
+    position: relative;
+}
+    #oldcore .mainheader .rightinformation {
+    position: absolute;
+    right: 0px;
+    bottom: 40px;
+}
+    #oldcore #headercontainer .pagetitle {
+    display: block !important;
+    padding: 0px;
+    background-image: none !important;
+    font-size: 26px;
+    color: white;
+    text-align: right;
+    height: auto !important;
+    font-family: "UWA slab" !important;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+    width: 600px !important;
+
+}
+
+@media screen and (max-width:1230px) {
+    body.responsive img#uwa_crest,
+    body.homepage img#uwa_crest {
+        margin-left: 0px;
+        padding-left: 10px
+    }
+}
+@media screen and (max-width:1000px) {
+    #bodycontainer #headercontainer {
+        background: url(//web.archive.org/web/20170202023334im_/http://static.weboffice.uwa.edu.au/visualid/graphics/header-refresh-background.jpg) bottom center repeat-x #27348B;
+        height: 155px;
+        min-height: 155px;
+    }
+    #headercontainer #headertitle {
+        max-width: 60%;
+    }
+    #bodycontainer #headercontainer .secondary {
+        margin-top: 20px;
+        background: none;
+    }
+    img#uwa_crest {
+        max-height: 58px;
+        max-width: 177px;
+        padding-top: 28px;
+    }
+    #gencore #headercontainer #headertitle {
+        padding-bottom: 5px;
+    }
+    #gencore #bodycontainer #headercontainer .primary img#uwa_crest {
+        padding-bottom: 30px;
+    }
+    #oldcore .mainheaderouter .mainheader {
+        min-height: 117px;
+    }
+    #oldcore #headercontainer .pagetitle {
+        max-width: 60%;
+    }
+
+}
+
+@media screen and (max-width: 800px) {
+    #oldcore #headercontainer .pagetitle {
+        display: none !important;
+    }
+}
+
+@media print {
+
+    div#nav_campaign_button {
+        display: none !important;
+    }
+    #headercontainer {
+        border-top: none !important;
+        height: 77px !important;
+    }
+    #headercontainer .primary { 
+        height: 77px !important;
+    }
+}
+/*
+     FILE ARCHIVED ON 02:33:34 Feb 02, 2017 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 15:34:10 Aug 11, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  PetaboxLoader3.resolve: 59.857
+  load_resource: 131.11
+  exclusion.robots.policy: 0.196
+  RedisCDXSource: 438.933
+  esindex: 0.01
+  LoadShardBlock: 176.62 (3)
+  PetaboxLoader3.datanode: 194.177 (4)
+  captures_list: 635.444
+  exclusion.robots: 0.209
+  CDXLines.iter: 15.318 (3)
+*/

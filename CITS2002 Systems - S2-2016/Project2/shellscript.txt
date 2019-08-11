@@ -1,0 +1,39 @@
+#!/bin/bash
+
+STUDNO=20916873
+
+IPfirst="114"
+IPlast="150"
+N=`expr $IPlast - $IPfirst`
+
+IPtry=`expr $IPfirst + $RANDOM % $N`
+
+for i in `seq $IPfirst $IPlast`
+do
+        H="$STUDNO@130.95.252.$IPtry"
+        echo trying $H
+        ssh -o "ConnectTimeout 2" $H && break
+        let IPtry+=1
+        if [ $IPtry -gt $IPlast ];
+        then
+                IPtry=$IPfirst
+        fi
+done
+
+exit 0
+
+ssh 20916873@130.95.252.115
+
+
+
+alias cfind="~/Documents/Project2/cfind"
+alias che="/cslinux/bin/cfind-sample-osx"
+alias check="/cslinux/bin/cfind-check"
+alias cdproject="cd ~/Documents/Project2/"
+cdproject
+
+-lt . '"*.*"'
+
+if [ $? -ne 0 ]; then
+    echo "command borked it"
+fi
